@@ -463,7 +463,7 @@ $\left| D \right|$ меток,
               (объекта): светлый и тёмный.
               Стрелками обозначены дуги,
               выходяшие из светлого суперпикселя
-              цетральной ячейки в соседствующие с ним объекты}
+              центральной ячейки в соседствующие с ним объекты}
   \label{fig:neighbors:superpixel}
 \end{figure}
 
@@ -564,19 +564,19 @@ $\left| D \right|$ меток,
 
 \begin{figure*}[h!]
     \centering
-    \subfloat[$100$ итераций, $19$ минут, $\left| D \right| = 40$]
+    \subfloat[$100$ итераций, $19$ минут, $\; \left| D \right| = 40$]
     {
         % среднее время итерации $11.4$ секунды
         \includegraphics[width=0.5\columnwidth]{images/cloth_superpixel_based_stereo}
         \label{fig:cloth:superpixel}
     } \qquad
-    \subfloat[$450$ итераций, $15$ минут, $\left| D \right| = 16$]
+    \subfloat[$450$ итераций, $15$ минут, $\; \left| D \right| = 16$]
     {
         % среднее время итерации $1.98$ секунд
         \includegraphics[width=0.5\columnwidth]{images/pots_superpixel_based_stereo}
         \label{fig:flowerpots:superpixel}
     } \qquad
-    \subfloat[$400$ итераций, $14$ минут, $\left| D \right| = 16$]
+    \subfloat[$400$ итераций, $14$ минут, $\; \left| D \right| = 16$]
     {
         % среднее время итерации $2.04$ секунды
         \includegraphics[width=0.5\columnwidth]{images/poster_superpixel_based_stereo}
@@ -605,8 +605,8 @@ $g$~--~модуль разности выбранных сдвигов в сос
 не может быть выбран сдвиг $d > x$,
 который перевёл бы координату пикселя в отрицательное число.
 Также наложены ограничения на сдвиги в соседних объектах по горизонтали:
-$d' \le d + 1$, где $d'$~--~метка в объекте $\left(x, y \right) \in T$,
-$d$~--~метка в объекте $\left(x', y'\right) \in \mathcal{N}\left(x, y \right)$,
+$d' \le d + 1$, где $d$~--~метка в объекте $\left(x, y \right) \in T$,
+$d'$~--~метка в объекте $\left(x', y'\right) \in \mathcal{N}\left(x, y \right)$,
 таком что $x' = x + 1$.
 
 Алгоритм был реализован на языке программирования Rust.
