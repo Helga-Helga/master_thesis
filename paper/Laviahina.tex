@@ -271,7 +271,7 @@ $g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right), \;
 %%====================================================================================%%
 
 Алгоритм диффузии (min-sum diffusion algorithm)
-является блочно-координатным спуском~\cite{savchynskyy}.
+является блочно-координатным подъёмом~\cite{savchynskyy}.
 Каждой вершине $\left(x, y, d \right), \, \left(x, y \right) \in T, \, d \in D$
 ставится в соответствие блок переменных
 $\left(
@@ -566,19 +566,16 @@ $\left| D \right|$ меток,
     \centering
     \subfloat[$100$ итераций, $19$ минут, $\; \left| D \right| = 40$]
     {
-        % среднее время итерации $11.4$ секунды
         \includegraphics[width=0.5\columnwidth]{images/cloth_superpixel_based_stereo}
         \label{fig:cloth:superpixel}
     } \qquad
     \subfloat[$450$ итераций, $15$ минут, $\; \left| D \right| = 16$]
     {
-        % среднее время итерации $1.98$ секунд
         \includegraphics[width=0.5\columnwidth]{images/pots_superpixel_based_stereo}
         \label{fig:flowerpots:superpixel}
     } \qquad
     \subfloat[$400$ итераций, $14$ минут, $\; \left| D \right| = 16$]
     {
-        % среднее время итерации $2.04$ секунды
         \includegraphics[width=0.5\columnwidth]{images/poster_superpixel_based_stereo}
         \label{fig:poster:superpixel}
     }
