@@ -6,61 +6,166 @@
 
 \section{Алгоритм дифузії для розв'язання задачі стереобачення}
 
-Алгоритм дифузії є блочно-координатним спуском
+Алгоритм дифузії є блочно-координатним підйомом
 \cite{overview:savchynskyy:diffusion}.
-Кожній вершині графу $\left( y, x, d \right)$,
-де $\left(y, x \right) \in T, \, d \in D_x$,
+Кожній вершині графу $\left( x, y, d \right)$,
+де $\left(x, y \right) \in T, \, d \in D$,
 ставиться у відповідність блок змінних
 $\left(
-    \varphi_{\left(y, x \right), \left(y', x' \right)} \left(d \right) :
-    \left(y', x' \right) \in \mathcal{N} \left(y, x \right), \,
-    d \in D_x
-\right)$.
+    \varphi_{\left(x, y \right), \left(x', y' \right)} \left(d \right) \in
+    \mathbb{R} :
+    \left(x', y' \right) \in \mathcal{N} \left(x, y \right), \,
+    d \in D
+\right)$ (рис.~\ref{fig:phi:block}).
+Введені змінні будемо називати потенціалами.
 
-Введемо репараметризовані ваги вершин
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/phi_block}
+  \caption{Змінна $\varphi_{\left(x, y \right), \left(x', y' \right)} \left(d \right)$}
+  \label{fig:phi:block}
+\end{figure}
+
+Вводяться репараметризовані ваги вершин
+(рис.~\ref{fig:reparametrized:vertex:weight})
+\begin{equation} \label{reparametrized:vertex}
+\begin{gathered}
+    f_{\left(x, y \right)}^{\varphi} \left( d \right) :=
+        f_{\left(x, y \right)} \left( d \right)
+        - \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+            \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                d
+                \right), \; \;
+    \left(x, y \right) \in T, \; \;
+    d \in D,
+\end{gathered}
+\end{equation}
+тобто від вихідного штрафу в вершині віднімаються потенціали,
+що виходять із даної вершини в усі сусідні об'єкти.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/reparametrized_vertex_weight}
+  \caption{Потенціали, які віднімаються від вихідного штрафу в вершині $\left(x, y, d \right)$}
+  \label{fig:reparametrized:vertex:weight}
+\end{figure}
+
+Також вводяться репараметризовані ваги дужок (рис.~\ref{fig:reparametrized:edge:weight})
+\begin{equation} \label{reparametrized:edge}
+\begin{gathered}
+    g_{\left(x, y \right), \left(x', y' \right)}^{\varphi} \left(d, d' \right)
+    := g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
+    + \varphi_{\left(x, y \right), \left(x', y' \right)} \left(d \right)
+    + \varphi_{\left(y', x' \right), \left(x, y \right)} \left(d' \right), \\
+    \left(
+        \left(x, y \right), \left(y', x' \right)
+    \right) \in \mathcal{N}, \; \;
+    d, d' \in D,
+\end{gathered}
+\end{equation}
+тобто до вихідного штрафу в дужці додаються потенціали, що виходять в об'єкти,
+які дана дужка поєднує.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/reparametrized_edge_weight}
+  \caption{Потенціали, які додаються до вихідного штрафу в дужці між вершиною
+           $\left(x, y, d \right)$ та вершиною $\left(x', y', d' \right)$}
+  \label{fig:reparametrized:edge:weight}
+\end{figure}
+
+Після перетворень \eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
+значення штрафної функції не зміниться для будь-якої розмітки $\pmb{d} \in D^T$.
+Для доведення цього твердження запишемо штрафну функцію
+\eqref{eq:overview:penalty} з репараметризованими штрафами
+\eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
 \begin{equation*}
-\begin{split}
-    f^{\varphi}\left(L \left(y, x\right) , R \left(y, x - d\right)\right) := \\
-    := f \left(L \left(y, x\right) , R \left(y, x - d\right)\right)
-    - \sum \limits_{\left(y', x' \right) \in \mathcal{N} \left(y, x \right)}
-        \varphi_{\left(y, x \right), \left(y', x' \right)} \left(d \right), \; \;
-    \left(y, x \right) \in T, \; \;
-    d \in D_x
-\end{split}
+\begin{gathered}
+    E^{\varphi} \left( \pmb{d} \right)
+    = \sum \limits_{\left(x, y \right) \in T}
+        f_{\left(x, y \right)}^{\varphi} \left(
+            d \left(x, y \right)
+        \right) + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}}
+        g_{\left(x, y \right), \left(x', y' \right)}^{\varphi} \left(
+            d \left( x, y \right), d \left( x', y' \right)
+        \right) = \\
+    = \sum \limits_{\left(x, y \right) \in T} \left[
+        f_{\left(x, y \right)} \left( d \left(x, y \right) \right)
+        - \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+            \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                d \left(x, y \right)
+            \right)
+        \right] + \\
+        + \sum \limits_{\left(\left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}}
+            \left[
+                g_{\left(x, y \right), \left(x', y' \right)} \left(
+                    d \left(x, y \right), d \left(x', y' \right)
+                \right) + \right. \\
+                \left.
+                + \varphi_{\left(x, y \right), \left(x', y' \right)}
+                    \left( d \left(x, y \right)
+                \right)
+                + \varphi_{\left(x', y' \right), \left(x, y \right)}
+                    \left( d \left(x', y' \right)
+                \right)
+            \right].
+\end{gathered}
 \end{equation*}
-та репараметризовані ваги дужок
+Розкриємо дужки в останньому виразі
 \begin{equation*}
-\begin{split}
-    g^{\varphi} \left(d, d' \right)
-    := g \left(d, d' \right)
-    + \varphi_{\left(y, x \right), \left(y', x' \right)} \left(d \right)
-    + \varphi_{\left(y', x' \right), \left(y, x \right)} \left(d' \right), \\
-    \left( \left(y, x \right), \left(y', x' \right) \right) \in \mathcal{N}, \; \;
-    d \in D_x, \; \;
-    d' \in D_{x'}.
-\end{split}
+\begin{gathered}
+    E^{\varphi} \left( \pmb{d} \right)
+    = \sum \limits_{\left(x, y \right) \in T}
+        f_{\left(x, y \right)} \left(d \left(x, y \right) \right)
+    - \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+            \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                d \left(x, y \right)
+            \right) + \\
+    + \sum \limits_{\left( \left(x, y \right), \left( x', y' \right) \right) \in \mathcal{N}}
+        g_{\left(x, y \right), \left(x', y' \right)} \left(
+            d \left(x, y \right), d \left(x', y' \right)
+        \right) + \\
+    + \sum \limits_{\left( \left(x, y \right), \left( x', y' \right) \right) \in \mathcal{N}}
+        \left[
+            \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                d \left(x, y \right)
+            \right)
+            + \varphi_{\left(x', y' \right), \left(x, y \right)} \left(
+                d \left(x', y' \right)
+            \right)
+        \right] = E \left(\pmb{d} \right),
+\end{gathered}
 \end{equation*}
+адже перший та третій доданки дорівнюють $E \left( \pmb{d} \right)$,
+а інші доданки разом дорівнюють нулю.
+Отримали, що
+$E^{\varphi} \left(\pmb{d} \right)
+    = E \left(\pmb{d} \right)$
+для всіх розміток $\pmb{d} \in D^T$.
+Отже, репараметризовані ваги введено правильно.
 
 Елементарний крок алгоритму дифузії
 складається з двох операцій для кожного об'єкту $\left(y, x \right)$:
 \begin{equation}\label{eq:diffusion:first}
-\begin{split}
+\begin{gathered}
     \forall \left( y', x' \right) \in \mathcal{N} \left(y,x\right) \; \;
     \forall d \in D_x \\
     \varphi_{\left(y, x \right), \left(y', x' \right)}^{t + 1} \left( d \right)
     := \varphi_{\left(y, x \right), \left(y', x' \right)}^t \left( d \right)
     - \min \limits_{d' \in D_{x'}}
         g^{\varphi^t} \left(d, d' \right),
-\end{split}
+\end{gathered}
 \end{equation}
 \begin{equation}\label{eq:diffusion:second}
-\begin{split}
+\begin{gathered}
     \forall \left( y', x' \right) \in \mathcal{N} \left(y,x\right) \; \;
     \forall d \in D_x \\
     \varphi_{\left(y, x \right), \left(y', x' \right)}^{t + 2} \left( d \right)
     := \varphi_{\left(y, x \right), \left(y', x' \right)}^{t + 1} \left( d \right)
     + \frac{f^{\varphi^{t + 1}} \left(L \left(y, x\right) , R \left(y, x - d\right)\right)}{\left| \mathcal{N} \left(y, x \right)\right|},
-\end{split}
+\end{gathered}
 \end{equation}
 де через $t$ позначено номер ітерації.
 

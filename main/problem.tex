@@ -387,16 +387,13 @@ $g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)$
 яка мінімізує штрафну функцію
 \begin{equation} \label{eq:overview:penalty}
 \begin{gathered}
-    E \left( \overline{d} \right)
-    = \sum \limits_{x = 1}^{w}
-        \sum \limits_{y = 1}^{h}
-            f_{\left(x, y \right)} \left(d \left(x, y \right) \right) + \\
-    + \sum \limits_{x = 1}^{w}
-        \sum \limits_{y = 1}^{h}
-            \sum \limits_{\left( x', y' \right) \in \mathcal{N} \left( x, y \right)}
-            g_{\left(x, y \right), \left(x', y' \right)} \left(
-                d \left( x, y \right), d \left( x', y' \right)
-            \right).
+    E \left( \pmb{d} \right)
+    = \sum \limits_{\left(x, y \right) \in T}
+        f_{\left(x, y \right)} \left(d \left(x, y \right) \right) + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}}
+        g_{\left(x, y \right), \left(x', y' \right)} \left(
+            d \left( x, y \right), d \left( x', y' \right)
+        \right).
 \end{gathered}
 \end{equation}
 
@@ -418,3 +415,14 @@ $g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)$
 які використовуються для розв'язання задачі стереобачення.
 Поставлена задача,
 розв'язання якої наведено в наступних роздiлах дисертації.
+
+Наведена постановка задачі є природною,
+адже враховує залежність проекції об'єктів з простору
+в одному пікселі від проекцій об'єктів в інших пікселях,
+наприклад, якщо один гладкий об'єкт зайняв більше одного рядка зображення.
+В постановці задачі,
+що використовується для
+розв'язання задачі стереобачення методом динамічного пограмування,
+залежності між рядками немає, тобто вважається,
+що об'єкти, спроектовані в різні рядки зображення, є незалежними,
+що на практиці не відповідає дійсності.
