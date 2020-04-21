@@ -1,23 +1,235 @@
-\chapter{Алгоритм дифузії для розв'язання задачі стереобачення}
+\chapter{Пошук карти глибин за спереопарою}
 
 Другий розділ присвячено розв'язку задачі стереобачення алгоритмом дифузії.
 Описуються властивості алгоритму та з'ясовується придатність
 розв'язку для поставленої задачі.
 
-\section{Алгоритм дифузії для розв'язання задачі стереобачення}
+\section{Відомості з теорії оптимізації}
+Введемо декілька визначень \cite{overview:savchynskyy:diffusion},
+що знадобляться при розв'язанні задачі.
 
-Алгоритм дифузії є блочно-координатним підйомом
-\cite{overview:savchynskyy:diffusion}.
-Кожній вершині графу $\left( x, y, d \right)$,
-де $\left(x, y \right) \in T, \, d \in D$,
-ставиться у відповідність блок змінних
-$\left(
-    \varphi_{\left(x, y \right), \left(x', y' \right)} \left(d \right) \in
-    \mathbb{R} :
-    \left(x', y' \right) \in \mathcal{N} \left(x, y \right), \,
-    d \in D
-\right)$ (рис.~\ref{fig:phi:block}).
-Введені змінні будемо називати потенціалами.
+Нехай задача
+\begin{equation} \label{minimization:problem}
+    \min_{\pmb{x} \in X} f \left( \pmb{x} \right)
+\end{equation}
+є задачею мінімізації функції $f: X \to \mathbb{R}$ на множині
+$X \subseteq \mathbb{R}^n$.
+Тоді оптимізаційна задача
+\begin{equation*}
+    \min_{\pmb{x} \in X'} g \left(\pmb{x} \right)
+\end{equation*}
+називається релаксацією задачі \eqref{minimization:problem},
+якщо $X' \supseteq X$ та $g \left( \pmb{x} \right) \ge f \left( \pmb{x} \right)$
+для будь-якого $\pmb{x} \in X$.
+
+Опуклим бакатогранником (polyhedron) $P$ в $\mathbb{R}^n$ називається множина,
+що може бути представлена скінченним набором лінійних нерівностей,
+тобто
+$P = \left\{
+    \pmb{x} \in \mathbb{R}^n \; \middle| \;
+    \hat{A} \cdot \pmb{x} \le \pmb{b}
+\right\}$
+для матриці $\hat{A} \in \mathbb{R}^{m \times n}$ і вектору
+$\pmb{b} \in \mathbb{R}^n$.
+Обмежений опуклий багатогранник називається політопом (polytope).
+
+Політоп
+\begin{equation*}
+    \Delta^n := \left\{
+        \pmb{x} \in \mathbb{R}^n_+ \; \middle| \; \sum \limits_{x = 1}^n x_i = 1
+    \right\}
+\end{equation*}
+називається $n$-вимірним (ймовірнісним) симплексом.
+
+Нехай $P$~---~опуклий багатогранник в $\mathbb{R}^n$,
+визначений множиною лінійних обмежень.
+Оптимізаційні задачі виду
+\begin{equation*}
+    \min \limits_{\pmb{x} \in P} \langle \pmb{c}, \pmb{x} \rangle, \qquad
+    \max \limits_{\pmb{x} \in P} \langle \pmb{c}, \pmb{x} \rangle
+\end{equation*}
+називаються задачами лінійного програмування
+
+Задача лінійного програмування з додатковим обмеженням,
+яке дозволяє всім змінним приймати значення тільки $0$ або $1$,
+наприклад,
+\begin{equation*}
+    \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}}
+    \langle \pmb{c}, \pmb{x} \rangle,
+\end{equation*}
+називається задачею булевого цілочисельного лінійного програмування.
+
+Розглянемо задачу цілочисельного лінійного програмування
+\begin{equation} \label{ILP}
+    \min \limits_{\substack{\pmb{x} \in P \cap \left\{ 0, 1\right\}^n \\
+                  \hat{A} \cdot \pmb{x} = \pmb{b}}}
+        \langle \pmb{c}, \pmb{x} \rangle,
+\end{equation}
+де $P$~---~політоп, $\hat{A} \in \mathbb{R}^{m \times n}$,
+$\pmb{b} \in \mathbb{R}^n$.
+Дуальна функція Лагранжа для задачі \eqref{ILP} має вигляд
+\begin{equation} \label{dualization}
+    \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
+        \langle \pmb{c}, \pmb{x} \rangle +
+    \langle \lambda, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle, \qquad
+    \lambda \in \mathbb{R}^n.
+\end{equation}
+Змінна $\pmb{\lambda}$ називається дуальною змінною.
+Цей прийом називається дуалізацією обмежень $\hat{A} \cdot \pmb{x} = \pmb{b}$,
+а релаксації такого вигляду називаються лагранжевими релаксаціями.
+Наступна задача є дуальною задачею Лагранжа для задачі \eqref{ILP}
+\begin{equation*}
+    \max \limits_{\lambda \in \mathbb{R}^n}
+        \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
+            \langle \pmb{c}, \pmb{x} \rangle +
+        \langle \lambda, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle.
+\end{equation*}
+
+\section{Релаксація Лагранжа для поставленої оптимізаційної задачі}
+
+Введемо вектор $\pmb{\mu}$, який містить змінну з множини $ \left[ 0, 1 \right]$
+для кожної вершини
+$\left( x, y, d \right), \left(x, y \right) \in T, d \in D$ та кожної дужки
+$\left( \left( x, y, d \right), \left(x', y', d' \right) \right)$,
+що поєднує пари міток $d, d' \in D$ між сусідніми об'єктами
+$\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
+в побудованому графі.
+Множину всіх вершин і дужок графу позначимо через $\mathcal{I}$.
+
+Елементи даного вектору $\mu_{\left(x, y \right)} \left(d \right)$,
+що відповідають вершинам, мають бути узгодженими з розміткою $\pmb{d}$,
+тобто якщо $\mu_{\left(x, y \right)} \left(d^* \right) = 1$ для якоїсь мітки
+$d^* \in D$,
+то $d \left(x, y \right) = d^*$.
+Розмітка $\pmb{d}$, за визначенням,
+має в кожному об'єкті $\left(x, y \right) \in T$
+обрати одну й тільки одну мітку $d \in D$.
+Таким чином, на елементи вектора $\pmb{\mu}$
+накладаються обмеження однозначності для вершин в об'єкті
+\begin{equation} \label{vetrex:unambiguity}
+    \sum \limits_{d \in D} \mu_{\left( x, y \right)} \left( d \right) = 1,
+    \qquad \forall \left(x, y \right) \in T,
+\end{equation}
+тобто у випадку, якщо вектор $\pmb{\mu}$~---~бінарний,
+то тільки один його елемент,
+що відповідає вершинам в об'єкті $\left(x, y \right)$, може бути рівним одиниці.
+
+Якщо в об'єкті обрана вершина $d^*$, то обрані дужки,
+що виходять із даного об'єкту до сусідніх об'єктів,
+мають виходити з цієї ж вершини (рис.~\ref{fig:combining:constraints}).
+Ці обмеження називаються поєднуючими
+\begin{equation} \label{combining:constraints}
+    \sum \limits_{d \in D}
+        \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
+        \mu_{\left(x', y' \right)} \left(d' \right), \qquad
+    \forall
+    \left( \left(x, y \right), \left(x',y' \right) \right) \in \mathcal{N},
+    d' \in D.
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/combining_constraints}
+  \caption{Поєднуючі обмеження}
+  \label{fig:combining:constraints}
+\end{figure}
+
+З цих обмежень також випливає,
+що між двома сусідніми об'єктами може бути обрана лише одна дужка,
+тобто на вектор $\pmb{\mu}$
+ще накладаються обмеження однозначності для дужок між парами сусідніх об'єктів
+\begin{equation} \label{edge:unambiguity}
+    \sum \limits_{d, d' \in D}
+        \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 1,
+        \qquad \forall
+        \left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}.
+\end{equation}
+
+Обмеження \eqref{vetrex:unambiguity}, \eqref{combining:constraints} та
+\eqref{edge:unambiguity} утворюють локальний політоп
+\begin{equation} \label{local:polytop}
+\begin{gathered}
+    \mathcal{L} :=
+    \begin{cases}
+        \sum \limits_{d \in D}
+            \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
+            \mu_{\left(x', y' \right)} \left(d' \right), \;
+        \forall
+        \left( \left(x, y \right), \left(x',y' \right) \right) \in \mathcal{N},
+        d' \in D, \\
+        \sum \limits_{d \in D} \mu_{\left( x, y \right)} \left( d \right) = 1,
+        \qquad \forall \left(x, y \right) \in T, \\
+        \sum \limits_{d, d' \in D}
+            \mu_{\left(x, y \right), \left(x', y' \right)} \left(
+                d, d'
+            \right) = 1, \qquad \forall
+            \left(\left(x, y \right), \left(x', y' \right) \right) \in
+                \mathcal{N}, \\
+        \pmb{\mu} \ge \pmb{0},
+    \end{cases}
+\end{gathered}
+\end{equation}
+де остання нерівність означає, що кожен елемент вектора $\pmb{\mu}$ невід'ємний.
+
+Отримаємо задачу цілочисельного лінійного програмування
+\begin{equation*}
+    \min \limits_{\pmb{d} \in D^T} E \left( \pmb{d} \right) =
+    \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{ 0, 1 \right\}^{\mathcal{I}}}
+        \langle \pmb{\theta}, \pmb{\mu} \rangle,
+\end{equation*}
+де $\pmb{\theta}$~---~вектор штрафів, накладених на всі вершини та дуги,
+елементи якого розташовані в тій же послідовності,
+що й елементи вектора $\pmb{\mu}$.
+
+Випишемо скалярний добуток у правій частині останнього виразу в явному вигляді
+\begin{equation} \label{ILP:MAP:inference}
+\begin{gathered}
+    \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{ 0, 1 \right\}^{\mathcal{I}}}
+        \langle \pmb{\theta}, \pmb{\mu} \rangle =
+    \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{ 0, 1 \right\}^{\mathcal{I}}}
+        \left[
+            \sum \limits_{\left(x, y \right) \in T}
+                \sum \limits_{d \in D}
+                    \mu_{\left(x, y \right)} \left(d \right) \cdot
+                    f_{\left(x, y \right)} \left( d \right) + \right. \\
+            + \left.
+            \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+                \sum \limits_{d, d' \in D}
+                    \mu_{\left(x, y \right), \left(x', y' \right)} \left(
+                        d, d'
+                    \right) \cdot
+                    g_{\left(x, y \right), \left(x', y' \right)} \left(
+                        d, d'
+                    \right)
+        \right].
+\end{gathered}
+\end{equation}
+
+Використаємо прийом дуалізації \eqref{dualization}
+поєднуючих обмежень \eqref{combining:constraints}
+в задачі \eqref{ILP:MAP:inference}.
+Новий доданок має вигляд
+\begin{equation} \label{dualized:term}
+    \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+            \sum \limits_{d \in D}
+                \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                    d
+                \right) \cdot \left[
+                    \sum \limits_{d' \in D}
+                        \mu_{\left(x, y \right), \left(x', y' \right)} \left(
+                            d, d'
+                        \right) - \mu_{\left(x, y \right)} \left(d \right)
+                \right],
+\end{equation}
+де змінні
+$\varphi_{\left(x, y \right), \left(x', y' \right)} \left( d \right) \in
+    \mathbb{R}$,
+$\left(x, y \right) \in T$,
+$\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$,
+$d \in D$,
+є дуальними.
+Будемо називати їх потенціалами (рис.~\ref{fig:phi:block}).
 
 \begin{figure}[h]
   \centering
@@ -26,22 +238,83 @@ $\left(
   \label{fig:phi:block}
 \end{figure}
 
-Вводяться репараметризовані ваги вершин
-(рис.~\ref{fig:reparametrized:vertex:weight})
-\begin{equation} \label{reparametrized:vertex}
+Запишемо цільову функцію задачі \eqref{ILP:MAP:inference}
+з урахуванням нового доданку \eqref{dualized:term}, в якому розкриємо дужки
+\begin{equation*}
 \begin{gathered}
-    f_{\left(x, y \right)}^{\varphi} \left( d \right) :=
-        f_{\left(x, y \right)} \left( d \right)
-        - \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
-            \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
-                d
-                \right), \; \;
-    \left(x, y \right) \in T, \; \;
-    d \in D,
+    \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
+    \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{d \in D}
+            \mu_{\left(x, y \right)} \left(d \right) \cdot
+            f_{\left(x, y \right)} \left( d \right) + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \sum \limits_{d, d' \in D}
+            \mu_{\left(x, y \right), \left(x', y' \right)} \left(
+                d, d'
+            \right) \cdot
+            g_{\left(x, y \right), \left(x', y' \right)} \left(
+                d, d'
+            \right) + \\
+    + \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+            \sum \limits_{d \in D}
+                \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                    d
+                \right) \cdot
+                \sum \limits_{d' \in D}
+                    \mu_{\left(x, y \right), \left(x', y' \right)} \left(
+                        d, d'
+                    \right) - \\
+    - \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{\left(x', y' \right) \in \mathcal{N}\left(x, y \right)}
+            \sum \limits_{d \in D}
+                \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                    d
+                \right) \cdot \mu_{\left(x, y \right)} \left(d \right).
+\end{gathered}
+\end{equation*}
+Згрупуємо перший доданок з останнім, а другий~---~з третім
+\begin{equation} \label{grouped:for:reparametrization}
+\begin{gathered}
+    \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
+    \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{d \in D}
+            \mu_{\left(x, y \right)} \left(d \right) \cdot \left[
+                f_{\left(x, y \right)} \left(d \right) -
+                \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                    \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                        d
+                    \right)
+            \right] + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right)\right)\in \mathcal{N}}
+        \sum \limits_{d, d' \in D}
+             \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
+             \cdot \left[
+                g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) + \right. \\
+                + \left. \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+                    d
+                \right) +
+                \varphi_{\left(x', y' \right), \left(x, y \right)} \left(
+                    d'
+                \right)
+             \right].
 \end{gathered}
 \end{equation}
-тобто від вихідного штрафу в вершині віднімаються потенціали,
-що виходять із даної вершини в усі сусідні об'єкти.
+
+Введемо позначення для репараметризованого штрафу за вибір мітки $d \in D$
+в об'єкті $\left(x, y \right) \in T$
+\begin{equation} \label{reparametrized:vertex}
+    f_{\left(x, y \right)}^{\varphi} \left(d \right) =
+    f_{\left(x, y \right)} \left(d \right) -
+    \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+        \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+            d
+        \right),
+\end{equation}
+тобто репараметризований
+штраф у вершині отримується шляхом віднімання потенціалів,
+що виходять із даної вершини в усі сусідні об'єкти,
+від вихідного штрафу в вершині (рис.~\ref{fig:reparametrized:vertex:weight}).
 
 \begin{figure}[h]
   \centering
@@ -50,21 +323,19 @@ $\left(
   \label{fig:reparametrized:vertex:weight}
 \end{figure}
 
-Також вводяться репараметризовані ваги дужок (рис.~\ref{fig:reparametrized:edge:weight})
+Також введемо позначення для репараметризованого штрафу за вибір пари міток
+$d, d' \in D$ у двох сусідніх об'єктах
+$\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
 \begin{equation} \label{reparametrized:edge}
-\begin{gathered}
-    g_{\left(x, y \right), \left(x', y' \right)}^{\varphi} \left(d, d' \right)
-    := g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
-    + \varphi_{\left(x, y \right), \left(x', y' \right)} \left(d \right)
-    + \varphi_{\left(y', x' \right), \left(x, y \right)} \left(d' \right), \\
-    \left(
-        \left(x, y \right), \left(y', x' \right)
-    \right) \in \mathcal{N}, \; \;
-    d, d' \in D,
-\end{gathered}
+    g_{\left(x, y \right), \left(x', y'\right)}^{\varphi} \left(d, d' \right) =
+    g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) +
+    \varphi_{\left(x, y \right), \left(x', y' \right)} \left( d \right) +
+    \varphi_{\left(x', y' \right), \left(x, y \right)} \left( d' \right),
 \end{equation}
-тобто до вихідного штрафу в дужці додаються потенціали, що виходять в об'єкти,
-які дана дужка поєднує.
+тобто репараметризований
+штраф на дужці отримується шляхом додавання потенціалів,
+що виходять в об'єкти, які дана дужка поєднує, до вихідного штрафу на дужці
+(рис.~\ref{fig:reparametrized:edge:weight}).
 
 \begin{figure}[h]
   \centering
@@ -73,6 +344,58 @@ $\left(
            $\left(x, y, d \right)$ та вершиною $\left(x', y', d' \right)$}
   \label{fig:reparametrized:edge:weight}
 \end{figure}
+
+Підставимо вирази \eqref{reparametrized:vertex} та \eqref{reparametrized:edge}
+у \eqref{grouped:for:reparametrization}
+\begin{equation*}
+\begin{gathered}
+    \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
+    \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{d \in D}
+            \mu_{\left(x, y \right)} \left(d \right) \cdot
+            f_{\left(x, y \right)}^{\varphi} \left(d \right) + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right)\right)\in \mathcal{N}}
+        \sum \limits_{d, d' \in D}
+            \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
+            \cdot g_{\left(x, y \right), \left(x', y'\right)}^{\varphi} \left(
+                d, d'
+            \right).
+\end{gathered}
+\end{equation*}
+
+Перепишемо локальний політоп в термінах багатовимірних симплексів
+\begin{equation*}
+\begin{gathered}
+    \mathcal{L} =
+    \begin{cases}
+        \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D}, \\
+        \pmb{\mu_{ \left(x, y \right), \left(x', y' \right)}} \in
+            \Delta^{\mathcal{N} \times D^2}, \\
+        \sum \limits_{d' \in D}
+            \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
+            \mu_{\left(x, y \right)} \left(d \right), \,
+        \forall \left(x, y \right) \in T,
+        \left(x', y' \right) \in \mathcal{N} \left(x, y \right),
+        d \in D.
+    \end{cases}
+\end{gathered}
+\end{equation*}
+
+Тоді
+\begin{equation*}
+    \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{0, 1 \right\}^{\mathcal{I}}}
+        \langle \pmb{\theta}, \pmb{\mu} \rangle =
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}, \pmb{\mu} \rangle.
+\end{equation*}
+
+\section{Алгоритм дифузії для розв'язання задачі стереобачення}
+
+Алгоритм дифузії є блочно-координатним підйомом
+\cite{overview:savchynskyy:diffusion}.
 
 Після перетворень \eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
 значення штрафної функції не зміниться для будь-якої розмітки $\pmb{d} \in D^T$.
