@@ -34,11 +34,11 @@ $\pmb{b} \in \mathbb{R}^n$.
 Обмежений опуклий багатогранник називається політопом (polytope).
 
 Політоп
-\begin{equation*}
+\begin{equation} \label{simplex}
     \Delta^n := \left\{
         \pmb{x} \in \mathbb{R}^n_+ \; \middle| \; \sum \limits_{x = 1}^n x_i = 1
     \right\}
-\end{equation*}
+\end{equation}
 називається $n$-вимірним (ймовірнісним) симплексом.
 
 Нехай $P$~---~опуклий багатогранник в $\mathbb{R}^n$,
@@ -78,12 +78,12 @@ $\pmb{b} \in \mathbb{R}^n$.
 Цей прийом називається дуалізацією обмежень $\hat{A} \cdot \pmb{x} = \pmb{b}$,
 а релаксації такого вигляду називаються лагранжевими релаксаціями.
 Наступна задача є дуальною задачею Лагранжа для задачі \eqref{ILP}
-\begin{equation*}
+\begin{equation} \label{lagrange:dual:problem}
     \max \limits_{\lambda \in \mathbb{R}^n}
         \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
             \langle \pmb{c}, \pmb{x} \rangle +
         \langle \lambda, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle.
-\end{equation*}
+\end{equation}
 
 \section{Релаксація Лагранжа для поставленої оптимізаційної задачі}
 
@@ -363,40 +363,6 @@ $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
 \end{gathered}
 \end{equation*}
 
-Перепишемо локальний політоп в термінах багатовимірних симплексів
-\begin{equation*}
-\begin{gathered}
-    \mathcal{L} =
-    \begin{cases}
-        \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D}, \\
-        \pmb{\mu_{ \left(x, y \right), \left(x', y' \right)}} \in
-            \Delta^{\mathcal{N} \times D^2}, \\
-        \sum \limits_{d' \in D}
-            \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
-            \mu_{\left(x, y \right)} \left(d \right), \,
-        \forall \left(x, y \right) \in T,
-        \left(x', y' \right) \in \mathcal{N} \left(x, y \right),
-        d \in D.
-    \end{cases}
-\end{gathered}
-\end{equation*}
-
-Тоді
-\begin{equation*}
-    \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{0, 1 \right\}^{\mathcal{I}}}
-        \langle \pmb{\theta}, \pmb{\mu} \rangle =
-    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
-                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
-                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
-                                \Delta^{\mathcal{N} \times D^2}}}
-        \langle \pmb{\theta}, \pmb{\mu} \rangle.
-\end{equation*}
-
-\section{Алгоритм дифузії для розв'язання задачі стереобачення}
-
-Алгоритм дифузії є блочно-координатним підйомом
-\cite{overview:savchynskyy:diffusion}.
-
 Після перетворень \eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
 значення штрафної функції не зміниться для будь-якої розмітки $\pmb{d} \in D^T$.
 Для доведення цього твердження запишемо штрафну функцію
@@ -469,69 +435,272 @@ $E^{\varphi} \left(\pmb{d} \right)
 для всіх розміток $\pmb{d} \in D^T$.
 Отже, репараметризовані ваги введено правильно.
 
-Елементарний крок алгоритму дифузії
+Перепишемо локальний політоп в термінах симплексів \eqref{simplex}
+\begin{equation*}
+\begin{gathered}
+    \mathcal{L} =
+    \begin{cases}
+        \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D}, \\
+        \pmb{\mu_{ \left(x, y \right), \left(x', y' \right)}} \in
+            \Delta^{\mathcal{N} \times D^2}, \\
+        \sum \limits_{d' \in D}
+            \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
+            \mu_{\left(x, y \right)} \left(d \right), \,
+        \forall \left(x, y \right) \in T,
+        \left(x', y' \right) \in \mathcal{N} \left(x, y \right),
+        d \in D.
+    \end{cases}
+\end{gathered}
+\end{equation*}
+
+Тоді
+\begin{equation*}
+    \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{0, 1 \right\}^{\mathcal{I}}}
+        \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle.
+\end{equation*}
+
+Маємо двоїсту задачу Лагранжа \eqref{lagrange:dual:problem}
+для вихідної оптимізаційної задачі,
+що полягає в мінімізації енергії \eqref{eq:overview:penalty},
+\begin{equation*}
+    \max \limits_{\Phi}
+        \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                                \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                                \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                    \Delta^{\mathcal{N} \times D^2}}}
+            \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle,
+\end{equation*}
+де
+$\Phi = \left\{
+    \varphi_{\left(x, y \right), \left(x', y' \right)} \left(
+        d
+    \right) \in \mathbb{R} \; \middle| \;
+    \left(x, y \right) \in T, \,
+    \left(x', y' \right) \in \mathcal{N} \left(x, y \right), \,
+    d \in D
+\right\}$~---~множина всіх потенціалів.
+Розпишемо вираз, який максимізується, окремо для вершин і дужок
+\begin{equation*}
+\begin{gathered}
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle = \\
+    + \min \limits_{\pmb{\mu_{\left(x, y \right)}}\in \Delta^{T \times D} \cap \left\{0, 1 \right\}^{T \times D}}
+        \sum \limits_{\left(x, y \right) \in T}
+            \sum \limits_{d \in D}
+                \mu_{\left(x, y \right)} \left( d \right) \cdot
+                f_{\left(x, y \right)}^{\varphi} \left(d \right) + \\
+    + \min \limits_{\pmb{\mu_{\left(x, y \right), \left(x', y' \right)}}\in \Delta^{\mathcal{N} \times D^2} \cap \left\{0, 1 \right\}^{\mathcal{N} \times D^2}}
+        \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+            \sum \limits_{d, d' \in D}
+                \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) \cdot
+                g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right).
+\end{gathered}
+\end{equation*}
+Використаємо обмеження однозначності \eqref{vetrex:unambiguity} та
+\eqref{edge:unambiguity}
+\begin{equation} \label{lagrange:dual:MAP}
+\begin{gathered}
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle = \\
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D}
+            f_{\left(x, y \right)}^{\varphi} \left(d \right) +
+    \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min_{d, d' \in D} g_{\left(x, y \right), \left(x', y' \right)}^{\varphi} \left(d, d' \right).
+\end{gathered}
+\end{equation}
+Отримали остаточний вигляд дуальної функції Лагранжа,
+яку будемо максимізувати по набору двоїстих змінних $\Phi$
+за допомогою алгоритма дифузії.
+
+\section{Алгоритм дифузії для розв'язання задачі стереобачення}
+
+Алгоритм дифузії є блочно-координатним підйомом
+\cite{overview:savchynskyy:diffusion},
+тобто на кожній ітерації відбувається максимізація цільової функції
+\eqref{lagrange:dual:MAP} за блоком змінних.
+При цьому змінні, що не входять в даних блок,
+залишаються фіксованими з попередньої ітерації.
+
+Виведемо алгоритм дифузії, ітерація якого буде складатися з двох кроків.
+Виразимо дуальну змінну
+$\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
+на кроці $i + 1$ через дуальну змінну
+$\varphi_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d \right)$
+на кроці $i$.
+Зауважимо, що всі інші дуальні змінні не впливають на оптимізацію,
+бо не залежать від даної вершини, тому вважаємо, що вони дорівнюють нулю.
+Хочемо, щоб після перетворення мінімальні штрафи за вибір дужок,
+які йдуть від вершини $\left(x, y, d \right)$ до сусідніх об'єктів
+$\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$, стали рівними нулю
+\begin{equation} \label{requirement:1}
+    \min \limits_{d' \in D} g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 1}}
+    \left(
+        d, d' \right
+    ) = 0, \, \forall t' \in \mathcal{N} \left(t \right), \, d \in D.
+\end{equation}
+Підставимо репараметризований штраф \eqref{reparametrized:edge}
+\begin{equation*}
+\begin{gathered}
+    \min \limits_{d' \in D}
+        g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 1}}
+    \left(
+        d, d' \right
+    ) = \\
+    = \min \limits_{d' \in D} \left[
+        g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right) +
+        \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right) +
+        \varphi_{\left(x', y' \right), \left(x, y \right)}^{i + 1} \left( d' \right)
+    \right] = 0.
+\end{gathered}
+\end{equation*}
+Як уже зазначалося, вважаємо, що
+$\varphi_{\left(x', y' \right), \left(x, y \right)}^{i + 1} \left( d' \right) =
+    0$.
+Виразимо $g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right)$
+через штраф на кроці $i$
+\begin{equation*}
+    \min \limits_{d' \in D} \left[
+        g_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d, d' \right) -
+        \varphi_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d \right) +
+        \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)
+    \right] = 0.
+\end{equation*}
+Два останні доданки не залежать від змінної $d' \in D$, по якій йде мінімізація,
+отже, винесемо їх за знак мінімуму
+\begin{equation*}
+    \min \limits_{d' \in D}
+        g_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d, d' \right) -
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d \right) +
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right) =
+    0.
+\end{equation*}
+Звідси маємо вираз для першого кроку алгоритму дифузії
+\begin{equation*}
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right) =
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d \right) -
+    \min \limits_{d' \in D}
+        g_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d, d' \right).
+\end{equation*}
+
+Виразимо дуальну змінну
+$\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left( d \right)$
+на кроці $i + 2$ через дуальну змінну
+$\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
+на кроці $i + 1$.
+Хочемо, щоб після перетворення штраф за вибір вершини $\left(x, y, d \right)$
+розподілився рівномірно між дужками,
+що йдуть від цієї вершини до сусідніх об'єктів, тобто щоб виконувалась рівність
+\begin{equation*}
+    \min \limits_{d' \in D} g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 2}}
+    \left(
+        d, d'
+    \right) =
+    \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|}, \,
+    \forall t' \in \mathcal{N} \left(t \right), \,
+    d \in D.
+\end{equation*}
+Знову розпишемо ліву частину рівності
+\begin{equation*}
+    \min \limits_{d' \in D} \left[
+        g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right) +
+        \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right)
+    \right] =
+    \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|}.
+\end{equation*}
+Звідси
+\begin{equation*}
+\begin{gathered}
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right) =
+    \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|} -
+    \min \limits_{d' \in D}
+        g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right) = \\
+    = \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|} -
+    \min \limits_{d' \in D} \left[
+        g_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d, d' \right) -
+        \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left(d \right)
+    \right] = \\
+    = \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right) -
+    \min \limits_{d' \in D}
+        g_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d, d' \right) +
+    \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|}.
+\end{gathered}
+\end{equation*}
+Використаємо рівність нулю
+мінімального штрафу за вибір дужки на попередньому кроці \eqref{requirement:1}
+та отримаємо вираз для другого кроку алгоритму дифузії
+\begin{equation*}
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right) =
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right) -
+    \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|}.
+\end{equation*}
+
+Таким чином, елементарний крок алгоритм дифузії \ref{fig:diffusion:step}
 складається з двох операцій для кожного об'єкту $\left(y, x \right)$:
 \begin{equation}\label{eq:diffusion:first}
 \begin{gathered}
-    \forall \left( y', x' \right) \in \mathcal{N} \left(y,x\right) \; \;
-    \forall d \in D_x \\
-    \varphi_{\left(y, x \right), \left(y', x' \right)}^{t + 1} \left( d \right)
-    := \varphi_{\left(y, x \right), \left(y', x' \right)}^t \left( d \right)
-    - \min \limits_{d' \in D_{x'}}
-        g^{\varphi^t} \left(d, d' \right),
+    \forall \left( x', y' \right) \in \mathcal{N} \left(x, y\right) \; \;
+    \forall d \in D \\
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)
+    = \varphi_{\left(x, y \right), \left(x', y' \right)}^i \left( d \right)
+    - \min \limits_{d' \in D}
+        g^{\varphi^i} \left(d, d' \right),
 \end{gathered}
 \end{equation}
+та
 \begin{equation}\label{eq:diffusion:second}
 \begin{gathered}
-    \forall \left( y', x' \right) \in \mathcal{N} \left(y,x\right) \; \;
-    \forall d \in D_x \\
-    \varphi_{\left(y, x \right), \left(y', x' \right)}^{t + 2} \left( d \right)
-    := \varphi_{\left(y, x \right), \left(y', x' \right)}^{t + 1} \left( d \right)
-    + \frac{f^{\varphi^{t + 1}} \left(L \left(y, x\right) , R \left(y, x - d\right)\right)}{\left| \mathcal{N} \left(y, x \right)\right|},
+    \forall \left( x', y' \right) \in \mathcal{N} \left(x, y\right) \; \;
+    \forall d \in D \\
+    \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left( d \right)
+    = \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)
+    + \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}} \left(d \right)}{\left| \mathcal{N} \left(x, y \right)\right|},
 \end{gathered}
 \end{equation}
-де через $t$ позначено номер ітерації.
+де через $i$ позначено номер кроку.
+Ітерація алгоритму дифузії полягає у виконанні кроків \eqref{eq:diffusion:first}
+та \eqref{eq:diffusion:second} для всіх об'єктів $\left( x, y \right) \in T$.
+На першій ітерації вважається, що всі дуальні змінні дорівнюють нулю,
+$\varphi_{\left(x, y \right), \left(x', y' \right)} \left( d \right) = 0$
+для всіх об'єктів $\left(x, y \right)$,
+для всіх сусідніх об'єктів
+$\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
+та для всіх міток $d \in D$.
 
-Для фіксованої вершини $\left( y, x, d \right)$ перша операція
-\ref{eq:diffusion:first} знаходить мінімальну вагу дужки між заданою вершиною
-та всіма вершинами $\left( y', x', d'\right)$,
-де $d' \in D_{x'}$,
-з сусідніх до неї об'єктів
-$\left(y', x' \right) \in \mathcal{N} \left(y, x \right)$,
-віднімає її від ваг усіх цих дужок
-$\left( \left(y, x, d\right), \left( y', x', d'\right)\right)$
-та додає до ваги вершини $\left(y, x, d \right)$.
-В результаті мінімальна вага дужки між вершиною $\left( y, x, d \right)$
-та кожним її сусідом $\left(y', x' \right) \in \mathcal{N} \left(y, x \right)$
-дорівнює нулю.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{images/diffusion_step}
+  \caption{Приклад виконання елементарного кроку дифузії для вершин в об'єкті $u$.
+           На ілюстрації кожна з вершин має по два сусіди.
+           Значення репараметризованих штрафів позначені великими числами,
+           а значення дуальних змінних $\varphi$~---~меншими.
+           Пунктирні лінії позначають мінімальні штрафи за вибір
+           дужки від конкретної вершини до кожного сусіднього об'єкта.
+           Зліва зображені початкові штрафи,
+           посередині~---~штрафи та значення
+           двоїстих змінних після виконання кроку \eqref{eq:diffusion:first},
+           справа~---~після виконання кроку \eqref{eq:diffusion:second}.
+           Зображення взято з монографії \cite{overview:savchynskyy:diffusion}}
+  \label{fig:diffusion:step}
+\end{figure}
 
-Після цього друга операція \ref{eq:diffusion:second}
-перерозподіляє репараметризовані ваги вершин
-$f^{\varphi} \left(
-    L \left(y, x \right) , R \left(y, x - d \right)
-\right) $
-між дужками до всіх сусідніх об'єктів
-$\left(y', x' \right) \in \mathcal{N} \left(y, x \right)$.
-В результаті вага вершини $ \left( y, x, d \right)$ стає рівною нулю,
-а мінімальні ваги дужок з цієї вершини до всіх сусідніх об'єктів стають
-рівними одна одній.
+Покажемо, що після виконання кожного з перетворень \eqref{eq:diffusion:second}
+та \eqref{eq:diffusion:second},
+що утворюють елементарний крок алгоритму дифузії,
+значення дуальної функції \eqref{lagrange:dual:MAP} зростає.
 
-Іншими словами, після операцій \ref{eq:diffusion:first} і
-\ref{eq:diffusion:second} для об'єкта $\left(y, x \right) \in T$ виконується
-\begin{equation*}
-    f^{\varphi} \left(
-        L \left(y, x\right) , R \left(y, x - d \right)
-    \right) = 0, \; \; \forall d \in D_x,
-\end{equation*}
-\begin{equation*}
-    \min \limits_{d' \in D_{x'}} g \left( d, d' \right)
-    = \min \limits_{d'' \in D_{x''}} g \left( d, d'' \right), \; \;
-    \forall \left(y', x' \right), \,
-        \left(y'', x'' \right) \in \mathcal{N} \left(y, x \right), \; \;
-    d \in D_x.
-\end{equation*}
-
-% TODO: add image for illustration of elementary diffusion step (probably, from book)
+% TODO: add proof
 
 Відомо \cite{overview:savchynskyy:diffusion},
 що операції \ref{eq:diffusion:first} і
@@ -544,12 +713,6 @@ $\left(
 
 Алгоритм полягає в ітеративному повторі елементарного кроку дифузії до виконання
 критерію зупинки.
-
-На першій ітерації вважається, що
-$\varphi_{\left(y, x \right), \left(y', x' \right)} \left(d \right) = 0$
-для всіх об'єктів $\left(y, x \right) \in T$, всіх міток $d \in D_x$
-та всіх сусідніх об'єктів
-$\left(y', x' \right) \in \mathcal{N} \left(y, x \right)$.
 
 \section{Вибір найкращої розмітки}
 
