@@ -695,24 +695,258 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
   \label{fig:diffusion:step}
 \end{figure}
 
-Покажемо, що після виконання кожного з перетворень \eqref{eq:diffusion:second}
+Покажемо, що після виконання кожного з перетворень \eqref{eq:diffusion:first}
 та \eqref{eq:diffusion:second},
 що утворюють елементарний крок алгоритму дифузії,
-значення дуальної функції \eqref{lagrange:dual:MAP} зростає.
+значення дуальної функції \eqref{lagrange:dual:MAP} не зменшується.
 
-% TODO: add proof
+Розпишемо цільову функцію задачі \eqref{lagrange:dual:MAP}
+після виконання кроку $i + 1$
+\begin{equation*}
+\begin{gathered}
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^{i + 1}}, \pmb{\mu} \rangle = \\
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D}
+            f_{\left(x, y \right)}^{\varphi^{i + 1}} \left( d \right) +
+    \sum \limits_{\left( \left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 1}}
+                \left( d, d' \right) =
+\end{gathered}
+\end{equation*}
+Підставимо вирази для репараметризованих штрафів \eqref{reparametrized:vertex}
+та \eqref{reparametrized:edge}
+\begin{equation*}
+\begin{gathered}
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D} \left[
+            f_{\left(x, y \right)} \left( d \right) -
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1}
+                    \left( d \right)
+        \right] + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D} \left[
+            g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) +
+            \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1}
+                \left( d \right) +
+            \varphi_{\left(x', y' \right), \left(x, y \right)}^{i + 1}
+                \left( d' \right)
+        \right] =
+\end{gathered}
+\end{equation*}
+Підставимо вирази для оновлення дуальних змінних на кроці $i + 1$
+через дуальні змінні на кроці $i$ \eqref{eq:diffusion:first}
+\begin{equation*}
+\begin{gathered}
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D} \left\{
+            f_{ \left(x, y \right)} \left(d \right) -
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+            \left[
+                \varphi_{ \left(x, y \right), \left(x', y' \right)}^i
+                    \left(d \right) -
+                \min \limits_{d' \in D}
+                    g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                        \left( d, d' \right)
+            \right]
+        \right\} + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D} \left[ \phantom{\min \limits_{d'' \in D}}
+            g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) + \right. \\
+            + \varphi_{\left(x, y \right), \left(x', y' \right)}^i
+                \left(d \right) -
+            \min \limits_{d'' \in D}
+                g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                    \left(d, d'' \right) + \\
+            \left. + \varphi_{\left(x', y' \right), \left(x, y \right)}^i
+                \left(d' \right) -
+            \min \limits_{d'' \in D}
+                g_{\left(x', y' \right), \left(x, y \right)}^{\varphi^i}
+                    \left(d', d'' \right)
+        \right] =
+\end{gathered}
+\end{equation*}
+Внесемо сумму в дужки в першому доданку,
+а в другому застосуємо формулу для репараметризованого
+штрафу за вибір пари міток на кроці $i$ \eqref{reparametrized:edge}
+\begin{equation*}
+\begin{gathered}
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D} \left[
+            f_{\left(x, y \right)} \left( d \right) -
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                \varphi_{\left(x, y \right), \left(x', y' \right)}^i
+                    \left(d \right) + \right. \\
+                \left. + \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                \min \limits_{d' \in D}
+                    g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                        \left(d, d' \right)
+        \right] + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right)\right)\in\mathcal{N}}
+        \min \limits_{d,d' \in D} \left[
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                \left(d, d' \right) -
+            \min \limits_{d'' \in D}
+                g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                    \left(d, d'' \right) - \right. \\
+            \left. - \min \limits_{d'' \in D}
+                g_{\left(x', y' \right), \left(x, y \right)}^{\varphi^i}
+                    \left(d', d'' \right)
+        \right] \ge
+\end{gathered}
+\end{equation*}
+В першому доданку
+застосуємо формулу для репараметризованого штрафу за вибір вершини з міткою $d$
+в об'єкті $\left(x, y \right)$ на кроці $i$ \eqref{reparametrized:vertex},
+а в другому доданку скористаємось тим фактом,
+що сума мінімумів функцій не перевищує мінімуму суми функцій
+\begin{equation*}
+\begin{gathered}
+    \ge \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{d \in D} \left[
+            f_{\left(x, y \right)}^{\varphi^i} \left(d \right) +
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                \min \limits_{d' \in D}
+                    g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                        \left(d, d' \right)
+        \right] + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right)\in \mathcal{N}}
+    \left[
+        \min\limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                \left(d, d' \right) -
+        \min\limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                \left(d, d' \right) - \right. \\
+        \left. - \min\limits_{d, d' \in D}
+            g_{\left(x', y' \right), \left(x, y \right)}^{\varphi^i}
+                \left(d', d \right)
+    \right] \ge
+\end{gathered}
+\end{equation*}
+Тепер у першому доданку скористаємось тим фактом,
+що сума мінімумів функцій не перевищує мінімуму суми функцій.
+Також зазначимо, що через те, що дуги в графі не направлені,
+має місце рівність
+\begin{equation*}
+    g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+            \left(d, d' \right) =
+    g_{\left(x', y' \right), \left(x, y \right)}^{\varphi^i}
+            \left(d', d \right),
+\end{equation*}
+тому ці штрафи знищуються в другому доданку
+\begin{equation*}
+\begin{gathered}
+    \ge \sum \limits_{\left(x, y \right) \in T} \left[
+        \min \limits_{d \in D}
+            f_{\left(x, y \right)}^{\varphi^i} \left(d \right) +
+        \min \limits_{d \in D}
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                \min \limits_{d' \in D}
+                    g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                        \left(d, d' \right)
+    \right] - \\
+    - \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
+                \left(d, d' \right) \ge
+\end{gathered}
+\end{equation*}
+В першому доданку поміняємо місцями знак суми по сусіднім об'єктам
+$\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
+та знак мінімума по міткам $d \in D$ та розкриємо дужки
+\begin{equation*}
+\begin{gathered}
+    \ge \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D}
+            f_{\left(x, y \right)}^{\varphi^i} \left( d \right) +
+    \sum \limits_{\left(x, y \right) \in T}
+        \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+            \min \limits_{d, d' \in D}
+                g_{\left(x, y \right), \left(x', y' \right)}
+                    \left( d, d' \right) - \\
+    - \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right) =
+\end{gathered}
+\end{equation*}
+Другий доданок містить кожну дужку
+$\left( \left(x, y \right), \left(x', y' \right) \right)$ два рази,
+бо об'єкт $\left(x', y' \right)$ є сусіднім для об'єкта $\left(x, y \right)$,
+а об'єкт $\left(x, y \right)$ в свою чергу є сусіднім для об'єкта
+$\left(x', y' \right)$
+\begin{equation*}
+\begin{gathered}
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D}
+            f_{\left(x, y \right)}^{\varphi^i} \left( d \right) +
+    \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right) = \\
+    = \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^i}, \pmb{\mu} \rangle.
+\end{gathered}
+\end{equation*}
+Отримали нерівність
+\begin{equation*}
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^{i + 1}}, \pmb{\mu} \rangle \ge
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^i}, \pmb{\mu} \rangle,
+\end{equation*}
+тобто крок \eqref{eq:diffusion:first}
+алгоритму дифузії не зменшує дуальную функцію Лагранжа \eqref{lagrange:dual:MAP}.
 
-Відомо \cite{overview:savchynskyy:diffusion},
-що операції \ref{eq:diffusion:first} і
-\ref{eq:diffusion:second} максимізують двоїсту функцію Лагранжа за змінними
-$\left(
-    \varphi_{\left(y, x \right), \left(y', x' \right)} \left(d \right) :
-    \left(y', x' \right) \in \mathcal{N} \left(y, x \right), \,
-    d \in D_x
-\right)$, а тому мінімізують штрафну функцію \ref{eq:overview:penalty}.
+% TODO: add proof for the second diffusion step
 
-Алгоритм полягає в ітеративному повторі елементарного кроку дифузії до виконання
-критерію зупинки.
+Таким чином,
+операції \ref{eq:diffusion:first} і
+\ref{eq:diffusion:second} максимізують дуальну функцію Лагранжа
+\eqref{lagrange:dual:MAP} по потенціалам
+$\Phi$, а тому мінімізують штрафну функцію \ref{eq:overview:penalty}
+\cite{overview:savchynskyy:diffusion}.
+
+% Since D is neither differentiable nor does it have a unique optimum,
+% the min-sum diffusion is not guaranteed to optimize the dual D(φ). Its
+% convergence properties are analyzed below.
+% First, we will show that node-edge agreement is a fixed point of minsum diffusion,
+% i.e. once this condition is satisfied at some iteration of the
+% algorithm, it is satisfied at all further iterations as well. Afterwards we
+% show that min-sum diffusion actually converges to node-edge agreement
+
+Алгоритм полягає в ітеративному повторі елементарного кроку дифузії для всіх об'єктів
+$\left(x, y \right) \in T$ до виконання критерію зупинки.
+Прикладом критерію зупинки алгоритму може бути мале збільшення
+значення дуальної функції Лагранжа \eqref{lagrange:dual:MAP}
+\begin{equation*}
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^{i + 1}}, \pmb{\mu} \rangle -
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^i}, \pmb{\mu} \rangle \le \varepsilon,
+\end{equation*}
+де $\varepsilon \in \mathbb{R}_+$~---~мале число.
+Виконання цього критерію означає,
+що ми наблизилися до шуканого максимуму дуальної функції Лагранжа.
 
 \section{Вибір найкращої розмітки}
 
