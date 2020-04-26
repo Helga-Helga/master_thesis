@@ -911,7 +911,162 @@ $\left(x', y' \right)$
 тобто крок \eqref{eq:diffusion:first}
 алгоритму дифузії не зменшує дуальную функцію Лагранжа \eqref{lagrange:dual:MAP}.
 
-% TODO: add proof for the second diffusion step
+Розпишемо цільову функцію задачі \eqref{lagrange:dual:MAP}
+після виконання кроку $i + 2$
+\begin{equation*}
+\begin{gathered}
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^{i + 2}}, \pmb{\mu} \rangle = \\
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D}
+            f_{\left(x, y \right)}^{\varphi^{i + 2}} \left( d \right) +
+    \sum \limits_{\left( \left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 2}}
+                \left( d, d' \right) =
+\end{gathered}
+\end{equation*}
+Підставимо вирази для репараметризованих штрафів \eqref{reparametrized:vertex}
+та \eqref{reparametrized:edge}
+\begin{equation*}
+\begin{gathered}
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D} \left[
+            f_{\left(x, y \right)} \left(d \right) -
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1}
+                    \left( d \right)
+        \right] + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right) \in  \mathcal{N}}
+        \min \limits_{d, d' \in D} \left[
+            g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) +
+            \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2}
+                \left( d \right) +
+            \varphi_{\left(x', y' \right), \left(x, y \right)}^{i + 2}
+                \left( d' \right)
+        \right] =
+\end{gathered}
+\end{equation*}
+Підставимо вирази для оновлення потенціалів $\varphi$ на кроці $i + 2$
+через потенціали на кроці $i + 1$ \eqref{eq:diffusion:second}
+\begin{equation*}
+\begin{gathered}
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D} \left\{
+            f_{ \left(x, y \right)} \left( d \right) -
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N}\left(x, y \right)}
+            \left[
+                \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1}
+                    \left( d \right) +
+                \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}} \left( d \right)}{\left| \mathcal{N} \left(x, y \right) \right|}
+            \right]
+        \right\} + \\
+    + \sum \limits_{\left( \left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D} \left[
+            g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right) +
+            \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1}
+                \left( d \right) +
+            \frac{f_{\left( x, y \right)}^{\varphi^{i + 1}} \left( d \right)}{\left| \mathcal{N}\left( x, y \right) \right|}
+            + \right. \\
+            \left. + \varphi_{\left(x', y' \right), \left(x, y \right)}^{i + 1}
+                \left( d' \right) +
+            \frac{f_{\left( x', y' \right)}^{\varphi^{i + 1}} \left( d' \right)}{\left| \mathcal{N}\left( x', y' \right) \right|}
+        \right] =
+\end{gathered}
+\end{equation*}
+В першому доданку розкриємо дужки,
+а в другому застосуємо формулу для репараметризованого штрафу за вибір пари
+міток на кроці $i + 1$
+\eqref{reparametrized:edge}
+\begin{equation*}
+\begin{gathered}
+    = \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D} \left[
+            f_{\left(x, y \right)} \left( d \right) -
+            \sum \limits_{\left(x' ,y' \right) \in \mathcal{N}\left( x, y \right)}
+                \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1}
+                    \left( d \right) -
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N}\left( x, y \right)}
+                \frac{f_{\left( x, y \right)}^{\varphi^{i + 1}}\left( d \right)}{\left|\mathcal{N}\left(x, y \right) \right|}
+        \right] + \\
+    + \sum \limits_{\left( \left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}}
+        \min \limits_{d, d' \in D} \left[
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 1}}
+                \left( d, d'\right) +
+            \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}}\left( d \right)}{\left| \mathcal{N}\left(x, y \right) \right|} +
+            \frac{f_{\left(x', y' \right)}^{\varphi^{i + 1}}\left( d' \right)}{\left| \mathcal{N}\left(x', y' \right) \right|}
+        \right] \ge
+\end{gathered}
+\end{equation*}
+В першому доданку використаємо формулу для репараметризованого штрафу за вибір
+мітки на кроці $i + 1$ \eqref{reparametrized:edge},
+а в другому доданку внесемо знак мінімума в дужки
+\begin{equation*}
+\begin{gathered}
+    \ge \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D} \left[
+            f_{\left(x, y \right)}^{\varphi^{i + 1}} \left( d \right) -
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N}\left(x, y \right)}
+                \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}}}{\left| \mathcal{N}\left(x. y \right) \right|}
+        \right] + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right)\right)\in \mathcal{N}}
+    \left[
+        \min\limits_{d, d' \in D}
+            g_{\left(x, y \right),\left(x', y'\right)}^{\varphi^{i + 1}}
+                \left(d, d' \right) +
+        \min \limits_{d \in D}
+            \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}} \left( d \right)}{\left| \mathcal{N}\left(x, y\right)\right|} +
+        \min \limits_{d' \in D}
+            \frac{f_{\left(x', y' \right)}^{\varphi^{i + 1}} \left( d' \right)}{\left| \mathcal{N}\left(x', y'\right)\right|}
+    \right] \ge
+\end{gathered}
+\end{equation*}
+Розкриємо дужки в обох доданках
+\begin{equation*}
+\begin{gathered}
+    \ge \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D}
+            f_{\left(x, y \right)}^{\varphi^{i + 1}}\left( d \right) -
+    \sum \limits_{\left(x, y \right) \in T}
+        \min \limits_{d \in D}
+            \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
+                \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}} \left( d \right)}{\left| \mathcal{N}\left(x, y \right) \right|} + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right)\in\mathcal{N}}
+        \min \limits_{d, d' \in D}
+            g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 1}}
+                \left(d, d' \right) +
+    \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right)\in\mathcal{N}}
+        \min \limits_{d \in D}
+            \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}} \left( d \right)}{\left| \mathcal{N}\left(x, y\right)\right|} + \\
+    + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right) \right)\in\mathcal{N}}
+    \min \limits_{d' \in D}
+        \frac{f_{\left(x', y' \right)}^{\varphi^{i + 1}} \left( d' \right)}{\left| \mathcal{N}\left(x', y'\right)\right|} =
+\end{gathered}
+\end{equation*}
+Два останні доданки рівні між собою,
+а в сумі вони дорівнюють другому доданку за знаком <<мінус>>, отже,
+вони знищуються.
+Те, що залишилося, дорівнює дуальній функції Лагранжа \eqref{lagrange:dual:MAP}
+на кроці $i + 1$.
+Отримали нерівність
+\begin{equation*}
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^{i + 2}}, \pmb{\mu} \rangle \ge
+    \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
+                            \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
+                            \pmb{\mu_{\left(x, y \right), \left(x', y' \right)}} \in
+                                \Delta^{\mathcal{N} \times D^2}}}
+        \langle \pmb{\theta}^{\varphi^{i + 1}}, \pmb{\mu} \rangle,
+\end{equation*}
+тобто крок \eqref{eq:diffusion:second}
+алгоритму дифузії не зменшує дуальную функцію Лагранжа
+\eqref{lagrange:dual:MAP}.
 
 Таким чином,
 операції \ref{eq:diffusion:first} і
@@ -950,78 +1105,229 @@ $\left(x, y \right) \in T$ до виконання критерію зупинк
 
 \section{Вибір найкращої розмітки}
 
-% TODO: cite crossing out algorithm
+Після мінімізації енергії задачі \eqref{eq:overview:penalty}
+треба знайти одну з тих розміток, штраф яких дорівнює мінімальному штрафу.
+Для цього використовується алгоритм викреслювання другого порядку
+(relaxation labeling algorithm) \cite{overview:savchynskyy:diffusion}.
 
-Після завершення якоїсь кількості ітерацій алгоритму дифузії,
-перевіряється, чи досягається необхідна точність за допомогою
-алгоритма викреслювання другого порядку.
-На вже побудованому графі розв'язується
-$\left( \bigvee, \bigwedge \right)$-задача.
+Розглядається той самий $\left| T \right|$-дольний граф,
+в кожній долі (об'єкті) якого міститься $\left| D \right|$ вершин.
+Вага вершини з міткою $d \in D$ в об'єкті $\left(x, y \right) \in T$
+тепер дорівнює
+$\mu_{\left(x, y \right)} \left( d \right) \in \left\{ 0, 1 \right\}$,
+а вага дужки між парою міток $d \in D$ в об'єкті $\left( x, y \right) \in T$
+та $d' \in D$ в об'єкті $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$~---~$\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)$.
 
-% TODO: use ampersand notation
-
-Тепер кожна вершина і дужка графу може бути допустимою або ні.
-$\tilde{f}_{\left(y, x \right)} \left(d \right) \in \left\{ 0, 1 \right\}$
-означає допустимість мітки
-$d \in D_x$ в об'єкті $\left(y,x \right) \in T$.
+Вершина $\left(x, y, d \right)$ вважається допустимою,
+якщо відповідна їй змінна $\mu_{\left(x, y \right)} \left( d \right) = 1$.
 Аналогічно,
-$\tilde{g}_{\left(y,x \right), \left(y', x' \right)} \left(d, d' \right)
-    \in \left\{ 0, 1 \right\}$
-означає допустимість пари міток $d \in D_x$ і $d' \in D_{x'}$
-в парі сусідніх об'єктів
-$\left( \left(y,x \right), \left(y', x' \right) \right) \in \mathcal{N}$.
+пара вершин $\left( \left( x, y, d \right), \left(x', y', d' \right) \right)$
+вважається допустимою, якщо відповідна змінна
+$\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 1$.
+
+На побудованому графі розв'язується
+$\left( \bigvee, \bigwith \right)$-задача, що полягає у відповіді на питання
+<<Чи існує така розмітка, при якій всі мітки та пари міток є допустимими?>>.
 
 На початку всі вершини вважаються допустимими, тобто
-$\tilde{f}_{\left(y, x \right)} \left(d \right) = 1$ для всіх
-міток $d \in D_x$ в об'єкті $\left(y,x \right) \in T$.
-В кожній парі сусідніх об'єктів знаходиться дужка з мінімальною вагою.
+$\mu_{\left(x, y \right)} \left(d \right) = 1$ для всіх
+міток $d \in D$ в кожному об'єкті $\left(y,x \right) \in T$.
+В кожній парі сусідніх об'єктів
+$\left( \left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
+знаходиться дужка з мінімальною вагою
+$\min \limits_{d, d' \in D} g_{\left(x, y \right), \left(x', y' \right)}
+    \left(d, d' \right) =
+    g_{\left(x, y \right), \left(x', y' \right)}
+        \left(\tilde{d}, \tilde{d'} \right)$.
 Між цією парою об'єктів допустимими є ті дужки,
 вага яких відрізняється від мінімальної не більше
-наперед заданої малої величини $\varepsilon$.
+наперед заданої малої величини $\varepsilon \in \mathbb{R}_+$
+(рис. \ref{fig:epsilon:edges}), тобто
+$\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 1$,
+якщо
+\begin{equation*}
+    g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) -
+    g_{\left(x, y \right), \left(x', y' \right)}
+        \left(\tilde{d}, \tilde{d'} \right) \le
+    \varepsilon.
+\end{equation*}
+Якщо ця нерівність не виконується, дужка вважається не допустимою,
+відповідна змінна
+$\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
+
+\begin{figure}[h]
+\centering
+    \begin{subfigure}[t]{0.475\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/epsilon_edges_min}
+        \caption{Штрафи за вибір пари міток між двома сусідніми об'єктами.
+                 Дужка з мінімальним штрафом позначена червоним}
+        \label{fig:epsilon:edges:min}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.475\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/epsilon_edges_05}
+        \caption{Допустимі дужки при $\varepsilon = 0.5$}
+        \label{fig:epsilon:edges:0.5}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[t]{0.475\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/epsilon_edges_1}
+        \caption{Допустимі дужки при $\varepsilon = 1$}
+        \label{fig:epsilon:edges:1}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[t]{0.475\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/epsilon_edges_4}
+        \caption{Допустимі дужки при $\varepsilon = 4$}
+        \label{fig:epsilon:edges:4}
+    \end{subfigure}
+    \caption{Допустимі дужки при різних значеннях $\varepsilon$}
+    \label{fig:epsilon:edges}
+\end{figure}
 
 Алгоритм полягає в багатократному застосуванні операцій
-<<викреслювання вершини>>
+<<викреслювання вершини>> (рис. \ref{fig:crossing:vertex})
 \begin{equation*}
-    \tilde{f}_{\left(y, x \right)} \left(d \right)
-    := \tilde{f}_{\left(y, x \right)} \left(d \right)
-    \bigwedge \bigwedge \limits_{\left(y', x' \right)\in \mathcal{N}\left(y,x \right)}
-        \bigvee \limits_{d' \in D_{x'}}
-            \tilde{g}_{\left(y,x \right), \left(y', x' \right)}
+    \mu_{\left(x, y \right)} \left(d \right)
+    = \mu_{\left(x, y \right)} \left(d \right)
+    \with \bigwith \limits_{\left(x', y' \right)\in \mathcal{N}\left(x, y \right)}
+        \bigvee \limits_{d' \in D}
+            \mu_{\left(x, y \right), \left(x', y' \right)}
                 \left(d, d' \right)
 \end{equation*}
-та <<викреслювання дужки>>
+та <<викреслювання дужки>> (рис. \ref{fig:crossing:edge})
 \begin{equation*}
-    \tilde{g}_{\left(y,x \right), \left(y', x' \right)} \left(d, d' \right)
-    := \tilde{g}_{\left(y,x \right), \left(y', x' \right)} \left(d, d' \right)
-    \bigwedge \tilde{f}_{\left(y, x \right)} \left(d \right)
-    \bigwedge \tilde{f}_{\left(y', x' \right)} \left(d' \right).
+    \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
+    = \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
+    \with \mu_{\left(x, y \right)} \left(d \right)
+    \with \mu_{\left(x', y' \right)} \left(d' \right).
 \end{equation*}
 
-% TODO: images for vertex and edge crossing out
+\begin{figure}[h]
+\centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/crossing_vertex}
+        \caption{З вершини $\left(x, y, d \right)$ до об'єкту
+                 $\left(x, y \right)$ всі дужки викреслені (не допустимі),
+                 тому вершина $\left(x, y, d \right)$ теж стає недопустимою}
+        \label{fig:crossing:vertex:yes}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/crossing_vertex_no}
+        \caption{Вершину $\left(x, y, d \right)$
+                 поєднує допустима дужка хоча б з однією
+                 вершиною в кожному сусідньому об'єкті.
+                 Вершина $\left(x, y, d \right)$ залишається допустимою}
+        \label{fig:crossing:vertex:np}
+    \end{subfigure}
+    \caption{Операція <<викреслювання вершини>>.
+             Зображені лише допустимі дужки}
+    \label{fig:crossing:vertex}
+\end{figure}
 
-Алгоритм завершує роботу зі скінченну кількість ітерацій.
-Якщо після завершення роботи алгоритма деякі вершини залишились невикресленими,
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/crossing_edge}
+  \caption{Операція <<викреслювання дужки>>.
+           Зафарбованими кружечками позначені допустимі вершини,
+           незафарбованими~---~недопустимі вершини.
+           Дужка, що поєднує мітку $d_2$ в об'єкті $\left(x, y\right)$
+           та мітку $d_1'$ в об'єкті $\left(x', y' \right)$, буде викреслена,
+           бо одна з цих міток, а саме $d_2$, є недопустимою.
+           Дужка, що поєднує мітку $d_1$ в об'єкті $\left(x, y\right)$
+           та мітку $d_1'$ в об'єкті $\left(x', y' \right)$,
+           залишиться допустимою}
+  \label{fig:crossing:edge}
+\end{figure}
+
+Алгоритм завершує роботу зі скінченну кількість ітерацій,
+адже ніяка викреслена вершина або дужка не може знов стати допустимою.
+Якщо після завершення роботи алгоритму деякі вершини залишились допустимими,
 то було зроблено досить ітерацій дифузії,
-і з множини невикреслених вершин можна побудувати розмітку.
-Інакше треба продовжити ітерації дифузії.
+і з множини допустимих вершин можна побудувати розмітку.
 
-% TODO: cite this  property
+Таким чином, для знаходження найкращої розмітки, необхідно
+\begin{enumerate}
+    \item виконати $N$ ітерацій алгоритму дифузії, де $N$~---~фіксоване число;
+    \item запустити алгоритм викреслювання другого порядку;
+    \item якщо після зупинки алгоритму викреслювання залишились
+          допустимі вершини, вибрати найкращу розмітку,
+          інакше~---~перейти до першого кроку.
+\end{enumerate}
 
-Для гарантії збіжності алгоритму дифузії ваги дужок $g$
-вихідного графу повинні мати властивість супермодулярності
+Для гарантії існування
+розмітки після застосування алгоритму дифузії штрафи за вибір пари міток $g$
+вихідного графу повинні мати властивість субмодулярності
 \cite{diffusion:shlezinger:supermodularity}.
-Прикладом вагової функції для дужок з властивістю супермодулярності є
-\begin{equation*}
-    g \left( d \left( y, x \right), d \left( y', x' \right) \right)
-    = \left| d \left( y, x \right) - d \left( y', x' \right) \right|.
-\end{equation*}
 
-% TODO: image for illustration of supermodularity
-% TODO: term consistency: вагова or штрафна функція
+Для введення субмодулярності необхідно задати порядок на множині міток $D$.
+В задачі стереобачення, яка розглядається, мітки задаються цілими числами,
+які можна впорядкувати по зростанню або спаданню.
+Будемо вважати, що серед двох міток $d, d' \in D$ вищою є та мітка,
+значення якої менше, як зображено на рисунку \ref{fig:phi:block}.
+Тобто якщо $d < d'$, то $d$ є вищою за $d'$.
+
+Функція $g$ є субмодулярною, якщо для будь-якої пари сусідніх об'єктів
+$\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
+та будь-яких пар міток $d_1 > d_2$ та $d_1' > d_2'$
+(рис. \ref{fig:submodular:function}) виконується нерівність
+\begin{equation} \label{submodular:function}
+\begin{gathered}
+    g_{\left(x, y \right), \left(x', y' \right)} \left(d_1, d_1' \right) +
+    g_{\left(x, y \right), \left(x', y' \right)} \left(d_2, d_2' \right) \le \\
+    \le g_{\left(x, y \right), \left(x', y' \right)} \left(d_1, d_2' \right) +
+    g_{\left(x, y \right), \left(x', y' \right)} \left(d_2, d_1' \right).
+\end{gathered}
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/submodular_function}
+  \caption{Для субмодулярної функції сума паралельних дужок (позначені червоним)
+           не перевищує суми дужок, що перетинаються (позначені чорним)}
+  \label{fig:submodular:function}
+\end{figure}
+
+Прикладом штрафної функції для дужок з властивістю субмодулярності
+є модуль різниці між значеннями міток
+\begin{equation} \label{edge:abs}
+    g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right)
+    = \left| d - d' \right|.
+\end{equation}
+Для доведення цього твердження достатньо розглянути два сусідніх об'єкта
+$\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
+з двома мітками в кожному: $d_1 > d_2$ та $d_1' > d_2'$
+та розглянути всі можливі варіанти значень міток
+(рис. \ref{fig:submodularity:abs:proof}).
+Для всіх можливих випадків, що зображені на рисунку,
+необхідно розкрити модулі в нерівності \eqref{submodular:function}
+та переконатися, що вони виконуються.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/submodularity_abs_proof}
+  \caption{Ілюстрація для доведення того факту,
+           що \eqref{edge:abs}~---~субмодулярна функція}
+  \label{fig:submodularity:abs:proof}
+\end{figure}
+
+Якщо після того, як алгоритм викреслювання зупинився,
+в кожному об'єкті $\left(x, y \right) \in T$
+залишилась хоча б одна допустима вершина,
+то в кожному об'єкті обирається та мітка, яка є найвищою.
+Сукупність таких міток і буде утворювати оптимальну розмітку.
 
 \section*{Висновки до розділу 2}
 \addcontentsline{toc}{section}{Висновки до розділу 2}
 
 Пред'явлено розв'язок задачі стереобачення за допомогою алгоритма дифузії.
-За певних штрафних функцій алгоритм гарантовано збігається,
-проте на практиці алгоритм працює досить довго, а отже потребує оптимізації.
+Доведено, що кожний крок алгоритму дифузії не зменшує дуальну функцію Лагранжа
+для енергії задачі, а також наведені інші важливі властивості.
+Описано, як знайти оптимальну розмітку після розв'язання задачі оптимізації.
