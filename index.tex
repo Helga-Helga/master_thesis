@@ -1,8 +1,9 @@
 \input{../common/head_ua.tex}
 
-\usepackage{xassoccnt}
-\usepackage{lastpage}
 \usepackage{cmll}
+\usepackage{lastpage}
+\usepackage{pdfpages}
+\usepackage{xassoccnt}
 \NewTotalDocumentCounter{totalfigures}
 \NewTotalDocumentCounter{totalbibitems}
 \DeclareAssociatedCounters{figure}{totalfigures}
@@ -16,7 +17,9 @@
 
 \begin{document}
 
-\import{title/}{title.tex}
+\includepdf[page=-]{title_filled}
+\includepdf[page=-]{task}
+% \import{title/}{title.tex}
 
 \clearpage
 \pagenumbering{gobble}
@@ -35,6 +38,7 @@
 \import{main/}{problem.tex}
 \import{main/}{diffusion.tex}
 \import{main/}{segmentation.tex}
+\import{main/}{results.tex}
 
 \import{conclusion/}{conclusion.tex}
 
