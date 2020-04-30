@@ -19,7 +19,6 @@
 
 \includepdf[page=-]{title_filled}
 \includepdf[page=-]{task}
-% \import{title/}{title.tex}
 
 \clearpage
 \pagenumbering{gobble}
@@ -34,6 +33,8 @@
 
 \clearpage
 
+% TODO: Add "theorem", "statement", "definition", bold or italic font
+
 \import{preface/}{preface.tex}
 \import{main/}{problem.tex}
 \import{main/}{diffusion.tex}
@@ -47,7 +48,5 @@
 \addcontentsline{toc}{chapter}{Перелік посилань}
 \renewcommand\bibname{Перелік посилань}
 \bibliography{bibliography.bib}
-
-% \import{appendices/}{main.tex}
 
 \end{document}
