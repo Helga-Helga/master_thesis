@@ -11,10 +11,8 @@
 зроблених в Мідлберійському коледжі в 2001~\cite{middlebury:ds:2001},
 2003~\cite{middlebury:ds:2003}
 та 2006~\cite{middlebury:ds:2006:1}~\cite{middlebury:ds:2006:2} роках.
-На рисунку \ref{fig:stereopair:left} наведені ліві зображення зі стереопар,
+На рисунку \ref{fig:stereopair} наведені ліві та праві зображення зі стереопар,
 для яких будувались карти глибин в даному розділі дисертації.
-На рисунку \ref{fig:stereopair:right}
-наведені праві зображення з тих же стереопар.
 
 \begin{figure}[h]
 \centering
@@ -38,12 +36,7 @@
         \caption{Плакат (Poster), $400 \times 352$ пікселяв}
         \label{fig:poster:left}
     \end{subfigure}
-    \caption{Ліві зображення стереопар}
-    \label{fig:stereopair:left}
-\end{figure}
-
-\begin{figure}[h]
-\centering
+    \vskip\baselineskip
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/cloth_right}
@@ -64,8 +57,10 @@
         \caption{Плакат (Poster), $400 \times 352$ пікселів}
         \label{fig:poster:right}
     \end{subfigure}
-    \caption{Праві зображення стереопар}
-    \label{fig:stereopair:right}
+    \caption{Зображення стереопар,
+             для яких будувались карти глибин в цьому розділі.
+             Перший рядок містить ліві зображення, другий~---~праві}
+    \label{fig:stereopair}
 \end{figure}
 
 На рисунку \ref{fig:result:pixel} зображені карти глибин,
@@ -256,6 +251,8 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$,
 такому що $x' = x + 1$.
 
 % TODO: add image
+
+% TODO: one image with different cell sizes comparison
 
 % Алгоритм был реализован на языке программиро-
 % вания Rust. В ходе работы был использован компью-

@@ -5,9 +5,66 @@
 розв'язку для поставленої задачі.
 
 \section{Відомості з теорії оптимізації}
-Введемо декілька визначень \cite{overview:savchynskyy:diffusion},
+Введемо декілька визначень та тверджень \cite{overview:savchynskyy:diffusion},
 що знадобляться при розв'язанні задачі.
 
+\textbf{Означення.}
+\textit{Опуклим бакатогранником} (polyhedron) $P$ в $\mathbb{R}^n$ називається множина,
+що може бути представлена скінченним набором лінійних нерівностей,
+тобто
+$P = \left\{
+    \pmb{x} \in \mathbb{R}^n \; \middle| \;
+    \hat{A} \cdot \pmb{x} \le \pmb{b}
+\right\}$
+для матриці $\hat{A} \in \mathbb{R}^{m \times n}$ і вектору
+$\pmb{b} \in \mathbb{R}^n$.
+Обмежений опуклий багатогранник називається \textit{політопом} (polytope).
+
+\textbf{Означення.}
+Політоп
+\begin{equation} \label{simplex}
+    \Delta^n := \left\{
+    \pmb{x} \in \mathbb{R}^n_+ \; \middle| \; \sum \limits_{x = 1}^n x_i = 1
+    \right\}
+\end{equation}
+називається \textit{$n$-вимірним (ймовірнісним) симплексом}.
+
+\textbf{Означення.}
+Для множини $X \subset \mathbb{R}^n$ множина
+\begin{equation*}
+    conv \left(X \right) = \left\{
+        \pmb{s} \in \mathbb{R}^n \; \middle| \;
+        \exists N \in \mathbb{N}_+ \; : \;
+        s = \sum \limits_{i = 1}^N p_i \cdot x^i, \,
+        x_i \in X, \,
+        \pmb{p} \in \Delta^N
+    \right\}
+\end{equation*}
+точок,
+які представлені як опукла комбінація скінченного числа точок з множини $X$,
+називається \textit{опуклою оболонкою} множини $X$.
+
+\textbf{Означення.}
+Нехай $P$~---~опуклий багатогранник в $\mathbb{R}^n$,
+визначений множиною лінійних обмежень.
+Оптимізаційні задачі виду
+\begin{equation*}
+    \min \limits_{\pmb{x} \in P} \langle \pmb{c}, \pmb{x} \rangle, \qquad
+    \max \limits_{\pmb{x} \in P} \langle \pmb{c}, \pmb{x} \rangle
+\end{equation*}
+називаються \textit{задачами лінійного програмування}.
+
+\textbf{Означення.}
+Задача лінійного програмування з додатковим обмеженням,
+яке дозволяє всім змінним приймати значення тільки $0$ або $1$,
+наприклад,
+\begin{equation*}
+    \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
+    \langle \pmb{c}, \pmb{x} \rangle,
+\end{equation*}
+називається \textit{задачею булевого цілочисельного лінійного програмування}.
+
+\textbf{Означення.}
 Нехай задача
 \begin{equation} \label{minimization:problem}
     \min_{\pmb{x} \in X} f \left( \pmb{x} \right)
@@ -18,47 +75,15 @@ $X \subseteq \mathbb{R}^n$.
 \begin{equation*}
     \min_{\pmb{x} \in X'} g \left(\pmb{x} \right)
 \end{equation*}
-називається релаксацією задачі \eqref{minimization:problem},
+називається \textit{релаксацією} задачі \eqref{minimization:problem},
 якщо $X' \supseteq X$ та $g \left( \pmb{x} \right) \ge f \left( \pmb{x} \right)$
 для будь-якого $\pmb{x} \in X$.
 
-Опуклим бакатогранником (polyhedron) $P$ в $\mathbb{R}^n$ називається множина,
-що може бути представлена скінченним набором лінійних нерівностей,
-тобто
-$P = \left\{
-    \pmb{x} \in \mathbb{R}^n \; \middle| \;
-    \hat{A} \cdot \pmb{x} \le \pmb{b}
-\right\}$
-для матриці $\hat{A} \in \mathbb{R}^{m \times n}$ і вектору
-$\pmb{b} \in \mathbb{R}^n$.
-Обмежений опуклий багатогранник називається політопом (polytope).
+\textbf{Означення.}
+Для задачі \eqref{minimization:problem} множина $X$ називається
+\textit{допустимою множиною}, а $\pmb{x} \in X$~---~\textit{допустимою точкою}.
 
-Політоп
-\begin{equation} \label{simplex}
-    \Delta^n := \left\{
-        \pmb{x} \in \mathbb{R}^n_+ \; \middle| \; \sum \limits_{x = 1}^n x_i = 1
-    \right\}
-\end{equation}
-називається $n$-вимірним (ймовірнісним) симплексом.
-
-Нехай $P$~---~опуклий багатогранник в $\mathbb{R}^n$,
-визначений множиною лінійних обмежень.
-Оптимізаційні задачі виду
-\begin{equation*}
-    \min \limits_{\pmb{x} \in P} \langle \pmb{c}, \pmb{x} \rangle, \qquad
-    \max \limits_{\pmb{x} \in P} \langle \pmb{c}, \pmb{x} \rangle
-\end{equation*}
-називаються задачами лінійного програмування
-
-Задача лінійного програмування з додатковим обмеженням,
-яке дозволяє всім змінним приймати значення тільки $0$ або $1$,
-наприклад,
-\begin{equation*}
-    \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}}
-    \langle \pmb{c}, \pmb{x} \rangle,
-\end{equation*}
-називається задачею булевого цілочисельного лінійного програмування.
-
+\textbf{Означення.}
 Розглянемо задачу цілочисельного лінійного програмування
 \begin{equation} \label{ILP}
     \min \limits_{\substack{\pmb{x} \in P \cap \left\{ 0, 1\right\}^n \\
@@ -67,23 +92,58 @@ $\pmb{b} \in \mathbb{R}^n$.
 \end{equation}
 де $P$~---~політоп, $\hat{A} \in \mathbb{R}^{m \times n}$,
 $\pmb{b} \in \mathbb{R}^n$.
-Дуальна функція Лагранжа для задачі \eqref{ILP} має вигляд
+
+\textit{Дуальна функція Лагранжа} для задачі \eqref{ILP} має вигляд
 \begin{equation} \label{dualization}
     \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
         \langle \pmb{c}, \pmb{x} \rangle +
-    \langle \lambda, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle, \qquad
-    \lambda \in \mathbb{R}^n.
+        \langle \pmb{\lambda}, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle, \qquad
+    \pmb{\lambda} \in \mathbb{R}^n.
 \end{equation}
-Змінна $\pmb{\lambda}$ називається дуальною змінною.
-Цей прийом називається дуалізацією обмежень $\hat{A} \cdot \pmb{x} = \pmb{b}$,
-а релаксації такого вигляду називаються лагранжевими релаксаціями.
+Змінна $\pmb{\lambda}$ називається \textit{дуальною змінною}.
+Цей прийом називається \textit{дуалізацією обмежень}
+$\hat{A} \cdot \pmb{x} = \pmb{b}$,
+а релаксації такого вигляду називаються \textit{лагранжевими релаксаціями}.
 Наступна задача є дуальною задачею Лагранжа для задачі \eqref{ILP}
 \begin{equation} \label{lagrange:dual:problem}
-    \max \limits_{\lambda \in \mathbb{R}^n}
+    \max \limits_{\pmb{\lambda} \in \mathbb{R}^n}
         \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
             \langle \pmb{c}, \pmb{x} \rangle +
-        \langle \lambda, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle.
+            \langle \pmb{\lambda}, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle.
 \end{equation}
+
+\textbf{Твердження.}
+(Прямо-двоїсті умови оптимальності, Primal-dual optimality conditions)
+Вектор $\pmb{\lambda}^*$~---~це оптимум дуальної задачі
+\eqref{lagrange:dual:problem} тоді й тільки тоді, коли існує
+\begin{equation} \label{eq:primal:dual:optimality:condition}
+\begin{gathered}
+    \pmb{x}^* \in
+    \arg\,\min \limits_{\pmb{x} \in conv \left( P \cap \left\{ 0, 1\right\}^n\right)}
+        \langle \pmb{c}, \pmb{x} \rangle +
+        \langle \pmb{\lambda}, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle = \\
+    = \arg\,\min \limits_{\pmb{x} \in conv \left( P \cap \left\{ 0, 1\right\}^n\right)}
+        \langle \pmb{c} + \hat{A}^T \cdot \pmb{\lambda}, \pmb{x} \rangle,
+\end{gathered}
+\end{equation}
+такий що $\hat{A} \cdot \pmb{x}^* = \pmb{0}$.
+Іншими словами, $\pmb{\lambda}^*$~---~це дуальний оптимум тоді й тільки тоді,
+коли існує такий $\pmb{x}^*$,
+що задовольняє \eqref{eq:primal:dual:optimality:condition}
+і є допустимим для релаксованої прямої задачі
+\begin{equation*}
+    \min \limits_{\substack{\pmb{x} \in conv \left( P \cap \left\{ 0, 1 \right\}^n\right) \\
+                            \hat{A} \cdot \pmb{x} = \pmb{b}}}
+        \langle \pmb{c}, \pmb{x} \rangle.
+\end{equation*}
+Такий $\pmb{x}^*$ є розв'язком релаксованої прямої задачі.
+
+\textbf{Примітка.}
+Якщо крім виконання умови \eqref{eq:primal:dual:optimality:condition} та
+$\hat{A} \cdot \pmb{x}^* = \pmb{0}$ справедливо,
+що $\pmb{x}^* \in \left\{ 0, 1 \right\}^n$,
+тоді $\pmb{x}^*$~---~це розв'язок нерелаксованої
+цілочисельної задачі лінійного програмування \eqref{ILP}.
 
 \section{Релаксація Лагранжа для поставленої оптимізаційної задачі}
 
@@ -105,7 +165,7 @@ $d^* \in D$,
 має в кожному об'єкті $\left(x, y \right) \in T$
 обрати одну й тільки одну мітку $d \in D$.
 Таким чином, на елементи вектора $\pmb{\mu}$
-накладаються обмеження однозначності для вершин в об'єкті
+накладаються \textit{обмеження однозначності для вершин} в об'єкті
 \begin{equation} \label{vetrex:unambiguity}
     \sum \limits_{d \in D} \mu_{\left( x, y \right)} \left( d \right) = 1,
     \qquad \forall \left(x, y \right) \in T,
@@ -117,7 +177,7 @@ $d^* \in D$,
 Якщо в об'єкті обрана вершина $d^*$, то обрані дужки,
 що виходять із даного об'єкту до сусідніх об'єктів,
 мають виходити з цієї ж вершини (рис.~\ref{fig:combining:constraints}).
-Ці обмеження називаються поєднуючими
+Ці обмеження називаються \textit{поєднуючими}
 \begin{equation} \label{combining:constraints}
     \sum \limits_{d \in D}
         \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
@@ -137,7 +197,8 @@ $d^* \in D$,
 З цих обмежень також випливає,
 що між двома сусідніми об'єктами може бути обрана лише одна дужка,
 тобто на вектор $\pmb{\mu}$
-ще накладаються обмеження однозначності для дужок між парами сусідніх об'єктів
+ще накладаються \textit{обмеження однозначності для дужок}
+між парами сусідніх об'єктів
 \begin{equation} \label{edge:unambiguity}
     \sum \limits_{d, d' \in D}
         \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 1,
@@ -146,7 +207,7 @@ $d^* \in D$,
 \end{equation}
 
 Обмеження \eqref{vetrex:unambiguity}, \eqref{combining:constraints} та
-\eqref{edge:unambiguity} утворюють локальний політоп
+\eqref{edge:unambiguity} утворюють \textit{локальний політоп}
 \begin{equation} \label{local:polytop}
 \begin{gathered}
     \mathcal{L} :=
@@ -229,7 +290,7 @@ $\left(x, y \right) \in T$,
 $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$,
 $d \in D$,
 є дуальними.
-Будемо називати їх потенціалами (рис.~\ref{fig:phi:block}).
+Будемо називати їх \textit{потенціалами} (рис.~\ref{fig:phi:block}).
 
 \begin{figure}[h]
   \centering
@@ -301,8 +362,8 @@ $d \in D$,
 \end{gathered}
 \end{equation}
 
-Введемо позначення для репараметризованого штрафу за вибір мітки $d \in D$
-в об'єкті $\left(x, y \right) \in T$
+Введемо позначення для \textit{репараметризованого штрафу за вибір мітки}
+$d \in D$ в об'єкті $\left(x, y \right) \in T$
 \begin{equation} \label{reparametrized:vertex}
     f_{\left(x, y \right)}^{\varphi} \left(d \right) =
     f_{\left(x, y \right)} \left(d \right) -
@@ -323,7 +384,8 @@ $d \in D$,
   \label{fig:reparametrized:vertex:weight}
 \end{figure}
 
-Також введемо позначення для репараметризованого штрафу за вибір пари міток
+Також введемо позначення для
+\textit{репараметризованого штрафу за вибір пари міток}
 $d, d' \in D$ у двох сусідніх об'єктах
 $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
 \begin{equation} \label{reparametrized:edge}
@@ -363,8 +425,10 @@ $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
 \end{gathered}
 \end{equation*}
 
+\textbf{Твердження.}
 Після перетворень \eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
 значення штрафної функції не зміниться для будь-якої розмітки $\pmb{d} \in D^T$.
+
 Для доведення цього твердження запишемо штрафну функцію
 \eqref{eq:overview:penalty} з репараметризованими штрафами
 \eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
@@ -484,7 +548,7 @@ $\Phi = \left\{
     \left(x', y' \right) \in \mathcal{N} \left(x, y \right), \,
     d \in D
 \right\}$~---~множина всіх потенціалів.
-Розпишемо вираз, який максимізується, окремо для вершин і дужок
+Розпишемо вираз, який максимізується, для вершин і дужок
 \begin{equation*}
 \begin{gathered}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
@@ -586,7 +650,7 @@ $\varphi_{\left(x', y' \right), \left(x, y \right)}^{i + 1} \left( d' \right) =
     \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right) =
     0.
 \end{equation*}
-Звідси маємо вираз для першого кроку алгоритму дифузії
+Звідси маємо вираз для \textit{першого кроку алгоритму дифузії}
 \begin{equation*}
     \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right) =
     \varphi_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d \right) -
@@ -639,14 +703,15 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
 \end{equation*}
 Використаємо рівність нулю
 мінімального штрафу за вибір дужки на попередньому кроці \eqref{requirement:1}
-та отримаємо вираз для другого кроку алгоритму дифузії
+та отримаємо вираз для \textit{другого кроку алгоритму дифузії}
 \begin{equation*}
     \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right) =
     \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right) -
     \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|}.
 \end{equation*}
 
-Таким чином, елементарний крок алгоритм дифузії \ref{fig:diffusion:step}
+Таким чином, \textit{елементарний крок алгоритм дифузії}
+\ref{fig:diffusion:step}
 складається з двох операцій для кожного об'єкту $\left(y, x \right)$:
 \begin{equation}\label{eq:diffusion:first}
 \begin{gathered}
@@ -669,7 +734,9 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
 \end{gathered}
 \end{equation}
 де через $i$ позначено номер кроку.
-Ітерація алгоритму дифузії полягає у виконанні кроків \eqref{eq:diffusion:first}
+
+\textit{Ітерація алгоритму дифузії}
+полягає у виконанні кроків \eqref{eq:diffusion:first}
 та \eqref{eq:diffusion:second} для всіх об'єктів $\left( x, y \right) \in T$.
 На першій ітерації вважається, що всі дуальні змінні дорівнюють нулю,
 $\varphi_{\left(x, y \right), \left(x', y' \right)} \left( d \right) = 0$
@@ -702,8 +769,12 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 що утворюють елементарний крок алгоритму дифузії,
 значення дуальної функції \eqref{lagrange:dual:MAP} не зменшується.
 
-Розпишемо цільову функцію задачі \eqref{lagrange:dual:MAP}
-після виконання кроку $i + 1$
+\textbf{Твердження.}
+Перший крок алгоритму дифузії \eqref{eq:diffusion:first}
+не зменшує значення дуальної функції Лагранжа \eqref{lagrange:dual:MAP}.
+
+Для доведення цього твердження розпишемо цільову функцію задачі
+\eqref{lagrange:dual:MAP} після виконання кроку $i + 1$
 \begin{equation*}
 \begin{gathered}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
@@ -913,8 +984,12 @@ $\left(x', y' \right)$
 тобто крок \eqref{eq:diffusion:first}
 алгоритму дифузії не зменшує дуальную функцію Лагранжа \eqref{lagrange:dual:MAP}.
 
-Розпишемо цільову функцію задачі \eqref{lagrange:dual:MAP}
-після виконання кроку $i + 2$
+\textbf{Твердження.}
+Другий крок алгоритму дифузії \eqref{eq:diffusion:second}
+не зменшує значення дуальної функції Лагранжа \eqref{lagrange:dual:MAP}.
+
+Для доведення цього твердження розпишемо цільову функцію задачі
+\eqref{lagrange:dual:MAP} після виконання кроку $i + 2$
 \begin{equation*}
 \begin{gathered}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
@@ -1075,15 +1150,8 @@ $\left(x', y' \right)$
 \ref{eq:diffusion:second} максимізують дуальну функцію Лагранжа
 \eqref{lagrange:dual:MAP} по потенціалам
 $\Phi$, а тому мінімізують штрафну функцію \ref{eq:overview:penalty}
-\cite{overview:savchynskyy:diffusion}.
-
-% Since D is neither differentiable nor does it have a unique optimum,
-% the min-sum diffusion is not guaranteed to optimize the dual D(φ). Its
-% convergence properties are analyzed below.
-% First, we will show that node-edge agreement is a fixed point of minsum diffusion,
-% i.e. once this condition is satisfied at some iteration of the
-% algorithm, it is satisfied at all further iterations as well. Afterwards we
-% show that min-sum diffusion actually converges to node-edge agreement
+\cite{overview:savchynskyy:diffusion},
+що випливає з прямо-двоїстих умов оптимальності.
 
 Алгоритм полягає в ітеративному повторі елементарного кроку дифузії для всіх об'єктів
 $\left(x, y \right) \in T$ до виконання критерію зупинки.
@@ -1103,13 +1171,14 @@ $\left(x, y \right) \in T$ до виконання критерію зупинк
 \end{equation*}
 де $\varepsilon \in \mathbb{R}_+$~---~мале число.
 Виконання цього критерію означає,
-що ми наблизилися до шуканого максимуму дуальної функції Лагранжа.
+що ми наблизилися до шуканого максимуму дуальної функції Лагранжа
+або потрапили на нерухому точку алгоритму.
 
 \section{Вибір найкращої розмітки}
 
 Після мінімізації енергії задачі \eqref{eq:overview:penalty}
 треба знайти одну з тих розміток, штраф яких дорівнює мінімальному штрафу.
-Для цього використовується алгоритм викреслювання другого порядку
+Для цього використовується \textit{алгоритм викреслювання другого порядку}
 (relaxation labeling algorithm) \cite{overview:savchynskyy:diffusion}.
 
 Розглядається той самий $\left| T \right|$-дольний граф,
@@ -1120,11 +1189,11 @@ $\mu_{\left(x, y \right)} \left( d \right) \in \left\{ 0, 1 \right\}$,
 а вага дужки між парою міток $d \in D$ в об'єкті $\left( x, y \right) \in T$
 та $d' \in D$ в об'єкті $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$~---~$\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)$.
 
-Вершина $\left(x, y, d \right)$ вважається допустимою,
+Вершина $\left(x, y, d \right)$ вважається \textit{допустимою},
 якщо відповідна їй змінна $\mu_{\left(x, y \right)} \left( d \right) = 1$.
 Аналогічно,
 пара вершин $\left( \left( x, y, d \right), \left(x', y', d' \right) \right)$
-вважається допустимою, якщо відповідна змінна
+вважається \textit{допустимою}, якщо відповідна змінна
 $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 1$.
 
 На побудованому графі розв'язується
@@ -1191,8 +1260,8 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
     \label{fig:epsilon:edges}
 \end{figure}
 
-Алгоритм полягає в багатократному застосуванні операцій
-<<викреслювання вершини>> (рис. \ref{fig:crossing:vertex})
+Алгоритм полягає в багатократному застосуванні
+\textit{операції <<викреслювання вершини>>} (рис. \ref{fig:crossing:vertex})
 \begin{equation*}
     \mu_{\left(x, y \right)} \left(d \right)
     = \mu_{\left(x, y \right)} \left(d \right)
@@ -1201,7 +1270,7 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
             \mu_{\left(x, y \right), \left(x', y' \right)}
                 \left(d, d' \right)
 \end{equation*}
-та <<викреслювання дужки>> (рис. \ref{fig:crossing:edge})
+та \textit{операції <<викреслювання дужки>>} (рис. \ref{fig:crossing:edge})
 \begin{equation*}
     \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
     = \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)
@@ -1272,11 +1341,12 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
 Для введення субмодулярності необхідно задати порядок на множині міток $D$.
 В задачі стереобачення, яка розглядається, мітки задаються цілими числами,
 які можна впорядкувати по зростанню або спаданню.
-Будемо вважати, що серед двох міток $d, d' \in D$ вищою є та мітка,
+Будемо вважати, що серед двох міток $d, d' \in D$ \textit{вищою} є та мітка,
 значення якої менше, як зображено на рисунку \ref{fig:phi:block}.
 Тобто якщо $d < d'$, то $d$ є вищою за $d'$.
 
-Функція $g$ є субмодулярною, якщо для будь-якої пари сусідніх об'єктів
+\textbf{Означення.}
+Функція $g$ є \textit{субмодулярною}, якщо для будь-якої пари сусідніх об'єктів
 $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 та будь-яких пар міток $d_1 > d_2$ та $d_1' > d_2'$
 (рис. \ref{fig:submodular:function}) виконується нерівність
