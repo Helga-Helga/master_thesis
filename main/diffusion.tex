@@ -22,7 +22,7 @@ $\pmb{b} \in \mathbb{R}^n$.
 
 \textbf{Означення.}
 Політоп
-\begin{equation} \label{simplex}
+\begin{equation} \label{eq:simplex}
     \Delta^n := \left\{
     \pmb{x} \in \mathbb{R}^n_+ \; \middle| \; \sum \limits_{x = 1}^n x_i = 1
     \right\}
@@ -66,7 +66,7 @@ $\pmb{b} \in \mathbb{R}^n$.
 
 \textbf{Означення.}
 Нехай задача
-\begin{equation} \label{minimization:problem}
+\begin{equation} \label{eq:minimization:problem}
     \min_{\pmb{x} \in X} f \left( \pmb{x} \right)
 \end{equation}
 є задачею мінімізації функції $f: X \to \mathbb{R}$ на множині
@@ -75,17 +75,17 @@ $X \subseteq \mathbb{R}^n$.
 \begin{equation*}
     \min_{\pmb{x} \in X'} g \left(\pmb{x} \right)
 \end{equation*}
-називається \textit{релаксацією} задачі \eqref{minimization:problem},
+називається \textit{релаксацією} задачі \eqref{eq:minimization:problem},
 якщо $X' \supseteq X$ та $g \left( \pmb{x} \right) \ge f \left( \pmb{x} \right)$
 для будь-якого $\pmb{x} \in X$.
 
 \textbf{Означення.}
-Для задачі \eqref{minimization:problem} множина $X$ називається
+Для задачі \eqref{eq:minimization:problem} множина $X$ називається
 \textit{допустимою множиною}, а $\pmb{x} \in X$~---~\textit{допустимою точкою}.
 
 \textbf{Означення.}
 Розглянемо задачу цілочисельного лінійного програмування
-\begin{equation} \label{ILP}
+\begin{equation} \label{eq:ILP}
     \min \limits_{\substack{\pmb{x} \in P \cap \left\{ 0, 1\right\}^n \\
                   \hat{A} \cdot \pmb{x} = \pmb{b}}}
         \langle \pmb{c}, \pmb{x} \rangle,
@@ -93,8 +93,8 @@ $X \subseteq \mathbb{R}^n$.
 де $P$~---~політоп, $\hat{A} \in \mathbb{R}^{m \times n}$,
 $\pmb{b} \in \mathbb{R}^n$.
 
-\textit{Дуальна функція Лагранжа} для задачі \eqref{ILP} має вигляд
-\begin{equation} \label{dualization}
+\textit{Дуальна функція Лагранжа} для задачі \eqref{eq:ILP} має вигляд
+\begin{equation} \label{eq:dualization}
     \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
         \langle \pmb{c}, \pmb{x} \rangle +
         \langle \pmb{\lambda}, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle, \qquad
@@ -104,8 +104,8 @@ $\pmb{b} \in \mathbb{R}^n$.
 Цей прийом називається \textit{дуалізацією обмежень}
 $\hat{A} \cdot \pmb{x} = \pmb{b}$,
 а релаксації такого вигляду називаються \textit{лагранжевими релаксаціями}.
-Наступна задача є дуальною задачею Лагранжа для задачі \eqref{ILP}
-\begin{equation} \label{lagrange:dual:problem}
+Наступна задача є дуальною задачею Лагранжа для задачі \eqref{eq:ILP}
+\begin{equation} \label{eq:lagrange:dual:problem}
     \max \limits_{\pmb{\lambda} \in \mathbb{R}^n}
         \min \limits_{\pmb{x} \in P \cap \left\{ 0, 1 \right\}^n}
             \langle \pmb{c}, \pmb{x} \rangle +
@@ -115,7 +115,7 @@ $\hat{A} \cdot \pmb{x} = \pmb{b}$,
 \textbf{Твердження.}
 (Прямо-двоїсті умови оптимальності, Primal-dual optimality conditions)
 Вектор $\pmb{\lambda}^*$~---~це оптимум дуальної задачі
-\eqref{lagrange:dual:problem} тоді й тільки тоді, коли існує
+\eqref{eq:lagrange:dual:problem} тоді й тільки тоді, коли існує
 \begin{equation} \label{eq:primal:dual:optimality:condition}
 \begin{gathered}
     \pmb{x}^* \in
@@ -143,7 +143,7 @@ $\hat{A} \cdot \pmb{x} = \pmb{b}$,
 $\hat{A} \cdot \pmb{x}^* = \pmb{0}$ справедливо,
 що $\pmb{x}^* \in \left\{ 0, 1 \right\}^n$,
 тоді $\pmb{x}^*$~---~це розв'язок нерелаксованої
-цілочисельної задачі лінійного програмування \eqref{ILP}.
+цілочисельної задачі лінійного програмування \eqref{eq:ILP}.
 
 \section{Релаксація Лагранжа для поставленої оптимізаційної задачі}
 
@@ -166,7 +166,7 @@ $d^* \in D$,
 обрати одну й тільки одну мітку $d \in D$.
 Таким чином, на елементи вектора $\pmb{\mu}$
 накладаються \textit{обмеження однозначності для вершин} в об'єкті
-\begin{equation} \label{vetrex:unambiguity}
+\begin{equation} \label{eq:vetrex:unambiguity}
     \sum \limits_{d \in D} \mu_{\left( x, y \right)} \left( d \right) = 1,
     \qquad \forall \left(x, y \right) \in T,
 \end{equation}
@@ -178,7 +178,7 @@ $d^* \in D$,
 що виходять із даного об'єкту до сусідніх об'єктів,
 мають виходити з цієї ж вершини (рис.~\ref{fig:combining:constraints}).
 Ці обмеження називаються \textit{поєднуючими}
-\begin{equation} \label{combining:constraints}
+\begin{equation} \label{eq:combining:constraints}
     \sum \limits_{d \in D}
         \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
         \mu_{\left(x', y' \right)} \left(d' \right), \qquad
@@ -199,16 +199,16 @@ $d^* \in D$,
 тобто на вектор $\pmb{\mu}$
 ще накладаються \textit{обмеження однозначності для дужок}
 між парами сусідніх об'єктів
-\begin{equation} \label{edge:unambiguity}
+\begin{equation} \label{eq:edge:unambiguity}
     \sum \limits_{d, d' \in D}
         \mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 1,
         \qquad \forall
         \left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}.
 \end{equation}
 
-Обмеження \eqref{vetrex:unambiguity}, \eqref{combining:constraints} та
-\eqref{edge:unambiguity} утворюють \textit{локальний політоп}
-\begin{equation} \label{local:polytop}
+Обмеження \eqref{eq:vetrex:unambiguity}, \eqref{eq:combining:constraints} та
+\eqref{eq:edge:unambiguity} утворюють \textit{локальний політоп}
+\begin{equation} \label{eq:local:polytop}
 \begin{gathered}
     \mathcal{L} :=
     \begin{cases}
@@ -243,7 +243,7 @@ $d^* \in D$,
 що й елементи вектора $\pmb{\mu}$.
 
 Випишемо скалярний добуток у правій частині останнього виразу в явному вигляді
-\begin{equation} \label{ILP:MAP:inference}
+\begin{equation} \label{eq:ILP:MAP:inference}
 \begin{gathered}
     \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{ 0, 1 \right\}^{\mathcal{I}}}
         \langle \pmb{\theta}, \pmb{\mu} \rangle =
@@ -266,11 +266,11 @@ $d^* \in D$,
 \end{gathered}
 \end{equation}
 
-Використаємо прийом дуалізації \eqref{dualization}
-поєднуючих обмежень \eqref{combining:constraints}
-в задачі \eqref{ILP:MAP:inference}.
+Використаємо прийом дуалізації \eqref{eq:dualization}
+поєднуючих обмежень \eqref{eq:combining:constraints}
+в задачі \eqref{eq:ILP:MAP:inference}.
 Новий доданок має вигляд
-\begin{equation} \label{dualized:term}
+\begin{equation} \label{eq:dualized:term}
     \sum \limits_{\left(x, y \right) \in T}
         \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
             \sum \limits_{d \in D}
@@ -299,8 +299,8 @@ $d \in D$,
   \label{fig:phi:block}
 \end{figure}
 
-Запишемо цільову функцію задачі \eqref{ILP:MAP:inference}
-з урахуванням нового доданку \eqref{dualized:term}, в якому розкриємо дужки
+Запишемо цільову функцію задачі \eqref{eq:ILP:MAP:inference}
+з урахуванням нового доданку \eqref{eq:dualized:term}, в якому розкриємо дужки
 \begin{equation*}
 \begin{gathered}
     \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
@@ -335,7 +335,7 @@ $d \in D$,
 \end{gathered}
 \end{equation*}
 Згрупуємо перший доданок з останнім, а другий~---~з третім
-\begin{equation} \label{grouped:for:reparametrization}
+\begin{equation} \label{eq:grouped:for:reparametrization}
 \begin{gathered}
     \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
     \sum \limits_{\left(x, y \right) \in T}
@@ -364,7 +364,7 @@ $d \in D$,
 
 Введемо позначення для \textit{репараметризованого штрафу за вибір мітки}
 $d \in D$ в об'єкті $\left(x, y \right) \in T$
-\begin{equation} \label{reparametrized:vertex}
+\begin{equation} \label{eq:reparametrized:vertex}
     f_{\left(x, y \right)}^{\varphi} \left(d \right) =
     f_{\left(x, y \right)} \left(d \right) -
     \sum \limits_{\left(x', y' \right) \in \mathcal{N} \left(x, y \right)}
@@ -388,7 +388,7 @@ $d \in D$ в об'єкті $\left(x, y \right) \in T$
 \textit{репараметризованого штрафу за вибір пари міток}
 $d, d' \in D$ у двох сусідніх об'єктах
 $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
-\begin{equation} \label{reparametrized:edge}
+\begin{equation} \label{eq:reparametrized:edge}
     g_{\left(x, y \right), \left(x', y'\right)}^{\varphi} \left(d, d' \right) =
     g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) +
     \varphi_{\left(x, y \right), \left(x', y' \right)} \left( d \right) +
@@ -407,8 +407,8 @@ $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
   \label{fig:reparametrized:edge:weight}
 \end{figure}
 
-Підставимо вирази \eqref{reparametrized:vertex} та \eqref{reparametrized:edge}
-у \eqref{grouped:for:reparametrization}
+Підставимо вирази \eqref{eq:reparametrized:vertex} та \eqref{eq:reparametrized:edge}
+у \eqref{eq:grouped:for:reparametrization}
 \begin{equation*}
 \begin{gathered}
     \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
@@ -426,12 +426,12 @@ $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
 \end{equation*}
 
 \textbf{Твердження.}
-Після перетворень \eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
+Після перетворень \eqref{eq:reparametrized:vertex} та \eqref{eq:reparametrized:vertex}
 значення штрафної функції не зміниться для будь-якої розмітки $\pmb{d} \in D^T$.
 
 Для доведення цього твердження запишемо штрафну функцію
 \eqref{eq:overview:penalty} з репараметризованими штрафами
-\eqref{reparametrized:vertex} та \eqref{reparametrized:vertex}
+\eqref{eq:reparametrized:vertex} та \eqref{eq:reparametrized:vertex}
 \begin{equation*}
 \begin{gathered}
     E^{\varphi} \left( \pmb{d} \right)
@@ -499,7 +499,7 @@ $E^{\varphi} \left(\pmb{d} \right)
 для всіх розміток $\pmb{d} \in D^T$.
 Отже, репараметризовані ваги введено правильно.
 
-Перепишемо локальний політоп в термінах симплексів \eqref{simplex}
+Перепишемо локальний політоп в термінах симплексів \eqref{eq:simplex}
 \begin{equation*}
 \begin{gathered}
     \mathcal{L} =
@@ -528,7 +528,7 @@ $E^{\varphi} \left(\pmb{d} \right)
         \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle.
 \end{equation*}
 
-Маємо двоїсту задачу Лагранжа \eqref{lagrange:dual:problem}
+Маємо двоїсту задачу Лагранжа \eqref{eq:lagrange:dual:problem}
 для вихідної оптимізаційної задачі,
 що полягає в мінімізації енергії \eqref{eq:overview:penalty},
 \begin{equation*}
@@ -568,9 +568,9 @@ $\Phi = \left\{
                 g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right).
 \end{gathered}
 \end{equation*}
-Використаємо обмеження однозначності \eqref{vetrex:unambiguity} та
-\eqref{edge:unambiguity}
-\begin{equation} \label{lagrange:dual:MAP}
+Використаємо обмеження однозначності \eqref{eq:vetrex:unambiguity} та
+\eqref{eq:edge:unambiguity}
+\begin{equation} \label{eq:lagrange:dual:MAP}
 \begin{gathered}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
                             \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
@@ -593,7 +593,7 @@ $\Phi = \left\{
 Алгоритм дифузії є блочно-координатним підйомом
 \cite{overview:savchynskyy:diffusion},
 тобто на кожній ітерації відбувається максимізація цільової функції
-\eqref{lagrange:dual:MAP} за блоком змінних.
+\eqref{eq:lagrange:dual:MAP} за блоком змінних.
 При цьому змінні, що не входять в даних блок,
 залишаються фіксованими з попередньої ітерації.
 
@@ -608,13 +608,13 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d \right)$
 Хочемо, щоб після перетворення мінімальні штрафи за вибір дужок,
 які йдуть від вершини $\left(x, y, d \right)$ до сусідніх об'єктів
 $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$, стали рівними нулю
-\begin{equation} \label{requirement:1}
+\begin{equation} \label{eq:requirement:1}
     \min \limits_{d' \in D} g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 1}}
     \left(
         d, d' \right
     ) = 0, \, \forall t' \in \mathcal{N} \left(t \right), \, d \in D.
 \end{equation}
-Підставимо репараметризований штраф \eqref{reparametrized:edge}
+Підставимо репараметризований штраф \eqref{eq:reparametrized:edge}
 \begin{equation*}
 \begin{gathered}
     \min \limits_{d' \in D}
@@ -702,7 +702,8 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
 \end{gathered}
 \end{equation*}
 Використаємо рівність нулю
-мінімального штрафу за вибір дужки на попередньому кроці \eqref{requirement:1}
+мінімального штрафу за вибір дужки на попередньому кроці
+\eqref{eq:requirement:1}
 та отримаємо вираз для \textit{другого кроку алгоритму дифузії}
 \begin{equation*}
     \varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left(d \right) =
@@ -710,8 +711,8 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
     \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|}.
 \end{equation*}
 
-Таким чином, \textit{елементарний крок алгоритм дифузії}
-\ref{fig:diffusion:step}
+Таким чином, \textit{елементарний крок алгоритму дифузії}
+(рис.~\ref{fig:diffusion:step})
 складається з двох операцій для кожного об'єкту $\left(y, x \right)$:
 \begin{equation}\label{eq:diffusion:first}
 \begin{gathered}
@@ -767,14 +768,14 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 Покажемо, що після виконання кожного з перетворень \eqref{eq:diffusion:first}
 та \eqref{eq:diffusion:second},
 що утворюють елементарний крок алгоритму дифузії,
-значення дуальної функції \eqref{lagrange:dual:MAP} не зменшується.
+значення дуальної функції \eqref{eq:lagrange:dual:MAP} не зменшується.
 
 \textbf{Твердження.}
 Перший крок алгоритму дифузії \eqref{eq:diffusion:first}
-не зменшує значення дуальної функції Лагранжа \eqref{lagrange:dual:MAP}.
+не зменшує значення дуальної функції Лагранжа \eqref{eq:lagrange:dual:MAP}.
 
 Для доведення цього твердження розпишемо цільову функцію задачі
-\eqref{lagrange:dual:MAP} після виконання кроку $i + 1$
+\eqref{eq:lagrange:dual:MAP} після виконання кроку $i + 1$
 \begin{equation*}
 \begin{gathered}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
@@ -791,8 +792,9 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
                 \left( d, d' \right) =
 \end{gathered}
 \end{equation*}
-Підставимо вирази для репараметризованих штрафів \eqref{reparametrized:vertex}
-та \eqref{reparametrized:edge}
+Підставимо вирази для репараметризованих штрафів
+\eqref{eq:reparametrized:vertex}
+та \eqref{eq:reparametrized:edge}
 \begin{equation*}
 \begin{gathered}
     = \sum \limits_{\left(x, y \right) \in T}
@@ -846,7 +848,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 \end{equation*}
 Внесемо сумму в дужки в першому доданку,
 а в другому застосуємо формулу для репараметризованого
-штрафу за вибір пари міток на кроці $i$ \eqref{reparametrized:edge}
+штрафу за вибір пари міток на кроці $i$ \eqref{eq:reparametrized:edge}
 \begin{equation*}
 \begin{gathered}
     = \sum \limits_{\left(x, y \right) \in T}
@@ -875,7 +877,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 \end{equation*}
 В першому доданку
 застосуємо формулу для репараметризованого штрафу за вибір вершини з міткою $d$
-в об'єкті $\left(x, y \right)$ на кроці $i$ \eqref{reparametrized:vertex},
+в об'єкті $\left(x, y \right)$ на кроці $i$ \eqref{eq:reparametrized:vertex},
 а в другому доданку скористаємось тим фактом,
 що сума мінімумів функцій не перевищує мінімуму суми функцій
 \begin{equation*}
@@ -982,14 +984,14 @@ $\left(x', y' \right)$
         \langle \pmb{\theta}^{\varphi^i}, \pmb{\mu} \rangle,
 \end{equation*}
 тобто крок \eqref{eq:diffusion:first}
-алгоритму дифузії не зменшує дуальную функцію Лагранжа \eqref{lagrange:dual:MAP}.
+алгоритму дифузії не зменшує дуальную функцію Лагранжа \eqref{eq:lagrange:dual:MAP}.
 
 \textbf{Твердження.}
 Другий крок алгоритму дифузії \eqref{eq:diffusion:second}
-не зменшує значення дуальної функції Лагранжа \eqref{lagrange:dual:MAP}.
+не зменшує значення дуальної функції Лагранжа \eqref{eq:lagrange:dual:MAP}.
 
 Для доведення цього твердження розпишемо цільову функцію задачі
-\eqref{lagrange:dual:MAP} після виконання кроку $i + 2$
+\eqref{eq:lagrange:dual:MAP} після виконання кроку $i + 2$
 \begin{equation*}
 \begin{gathered}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
@@ -1006,8 +1008,8 @@ $\left(x', y' \right)$
                 \left( d, d' \right) =
 \end{gathered}
 \end{equation*}
-Підставимо вирази для репараметризованих штрафів \eqref{reparametrized:vertex}
-та \eqref{reparametrized:edge}
+Підставимо вирази для репараметризованих штрафів \eqref{eq:reparametrized:vertex}
+та \eqref{eq:reparametrized:edge}
 \begin{equation*}
 \begin{gathered}
     = \sum \limits_{\left(x, y \right) \in T}
@@ -1057,7 +1059,7 @@ $\left(x', y' \right)$
 В першому доданку розкриємо дужки,
 а в другому застосуємо формулу для репараметризованого штрафу за вибір пари
 міток на кроці $i + 1$
-\eqref{reparametrized:edge}
+\eqref{eq:reparametrized:edge}
 \begin{equation*}
 \begin{gathered}
     = \sum \limits_{\left(x, y \right) \in T}
@@ -1079,7 +1081,7 @@ $\left(x', y' \right)$
 \end{gathered}
 \end{equation*}
 В першому доданку використаємо формулу для репараметризованого штрафу за вибір
-мітки на кроці $i + 1$ \eqref{reparametrized:edge},
+мітки на кроці $i + 1$ \eqref{eq:reparametrized:edge},
 а в другому доданку внесемо знак мінімума в дужки
 \begin{equation*}
 \begin{gathered}
@@ -1126,7 +1128,8 @@ $\left(x', y' \right)$
 Два останні доданки рівні між собою,
 а в сумі вони дорівнюють другому доданку за знаком <<мінус>>, отже,
 вони знищуються.
-Те, що залишилося, дорівнює дуальній функції Лагранжа \eqref{lagrange:dual:MAP}
+Те, що залишилося,
+дорівнює дуальній функції Лагранжа \eqref{eq:lagrange:dual:MAP}
 на кроці $i + 1$.
 Отримали нерівність
 \begin{equation*}
@@ -1143,20 +1146,20 @@ $\left(x', y' \right)$
 \end{equation*}
 тобто крок \eqref{eq:diffusion:second}
 алгоритму дифузії не зменшує дуальную функцію Лагранжа
-\eqref{lagrange:dual:MAP}.
+\eqref{eq:lagrange:dual:MAP}.
 
 Таким чином,
-операції \ref{eq:diffusion:first} і
-\ref{eq:diffusion:second} максимізують дуальну функцію Лагранжа
-\eqref{lagrange:dual:MAP} по потенціалам
-$\Phi$, а тому мінімізують штрафну функцію \ref{eq:overview:penalty}
+операції \eqref{eq:diffusion:first} і
+\eqref{eq:diffusion:second} максимізують дуальну функцію Лагранжа
+\eqref{eq:lagrange:dual:MAP} по потенціалам
+$\Phi$, а тому мінімізують штрафну функцію \eqref{eq:overview:penalty}
 \cite{overview:savchynskyy:diffusion},
 що випливає з прямо-двоїстих умов оптимальності.
 
 Алгоритм полягає в ітеративному повторі елементарного кроку дифузії для всіх об'єктів
 $\left(x, y \right) \in T$ до виконання критерію зупинки.
 Прикладом критерію зупинки алгоритму може бути мале збільшення
-значення дуальної функції Лагранжа \eqref{lagrange:dual:MAP}
+значення дуальної функції Лагранжа \eqref{eq:lagrange:dual:MAP}
 \begin{equation*}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
                             \pmb{\mu_{\left(x, y \right)}} \in \Delta^{T \times D} \\
@@ -1350,7 +1353,7 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
 $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 та будь-яких пар міток $d_1 > d_2$ та $d_1' > d_2'$
 (рис. \ref{fig:submodular:function}) виконується нерівність
-\begin{equation} \label{submodular:function}
+\begin{equation} \label{eq:submodular:function}
 \begin{gathered}
     g_{\left(x, y \right), \left(x', y' \right)} \left(d_1, d_1' \right) +
     g_{\left(x, y \right), \left(x', y' \right)} \left(d_2, d_2' \right) \le \\
@@ -1369,7 +1372,7 @@ $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 
 Прикладом штрафної функції для дужок з властивістю субмодулярності
 є модуль різниці між значеннями міток
-\begin{equation} \label{edge:abs}
+\begin{equation} \label{eq:edge:abs}
     g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right)
     = \left| d - d' \right|.
 \end{equation}
@@ -1379,14 +1382,14 @@ $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 та розглянути всі можливі варіанти значень міток
 (рис. \ref{fig:submodularity:abs:proof}).
 Для всіх можливих випадків, що зображені на рисунку,
-необхідно розкрити модулі в нерівності \eqref{submodular:function}
+необхідно розкрити модулі в нерівності \eqref{eq:submodular:function}
 та переконатися, що вони виконуються.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\textwidth]{images/submodularity_abs_proof}
   \caption{Ілюстрація для доведення того факту,
-           що \eqref{edge:abs}~---~субмодулярна функція}
+           що \eqref{eq:edge:abs}~---~субмодулярна функція}
   \label{fig:submodularity:abs:proof}
 \end{figure}
 

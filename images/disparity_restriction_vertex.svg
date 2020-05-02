@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.4 (fd57863, 2020-04-02)"
-   sodipodi:docname="disparity_restriction_vertex.svg">
+   sodipodi:docname="disparity_restriction_vertex.svg"
+   inkscape:export-filename="/home/helga/ipt/stereovision/master_thesis/images/disparity_restriction_vertex.png"
+   inkscape:export-xdpi="107.735"
+   inkscape:export-ydpi="107.735">
   <defs
      id="defs2">
     <marker
@@ -791,6 +794,8 @@
        d="m 301.04228,397.28637 v -2.43003 h 2.9547 c 1.62508,0 2.84674,0.0939 2.71479,0.20868 -0.45166,0.39287 -4.785,3.96383 -5.22754,4.30784 -0.41408,0.32189 -0.44195,0.19035 -0.44195,-2.08649 z"
        id="path1705"
        inkscape:connector-curvature="0"
-       transform="matrix(0.26458333,0,0,0.26458333,0,87)" />
+       transform="matrix(0.26458333,0,0,0.26458333,0,87)"
+       inkscape:export-xdpi="107.735"
+       inkscape:export-ydpi="107.735" />
   </g>
 </svg>

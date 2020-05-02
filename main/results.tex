@@ -4,7 +4,7 @@
 застосування алгоритму дифузії з сегментацією
 та без із зазначенням вхідних даних.
 
-\section{Практичні результати}
+\section{Результати експериментів}
 
 Вихідні зображення для побудови карти глибин
 за допомогою описаних алгоритмів були взяті з набору стереопар,
@@ -19,43 +19,34 @@
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/cloth_left}
-        \caption{Тканина (Cloth1), $400 \times 355$ пікселів}
-        \label{fig:cloth:left}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pots_left}
-        \caption{Квіткові горщики (Flowerpots), $400 \times 338$ пікселів}
-        \label{fig:flowerpots:left}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/poster_left}
-        \caption{Плакат (Poster), $400 \times 352$ пікселяв}
-        \label{fig:poster:left}
     \end{subfigure}
     \vskip\baselineskip
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/cloth_right}
         \caption{Тканина (Cloth1), $400 \times 355$ пікселів}
-        \label{fig:cloth:right}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pots_right}
         \caption{Квіткові горщики (Flowerpots), $400 \times 338$ пікселів}
-        \label{fig:flowerpots:right}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/poster_right}
         \caption{Плакат (Poster), $400 \times 352$ пікселів}
-        \label{fig:poster:right}
     \end{subfigure}
     \caption{Зображення стереопар,
              для яких будувались карти глибин в цьому розділі.
@@ -198,6 +189,12 @@
     \label{fig:ground:truth}
 \end{figure}
 
+Алгоритм був реалізований на мові програмування Rust.
+В ході роботи був використаний комп'ютер з процесором
+Intel(R) Core(TM) i5-7400 і ОЗП DDR4 2133MHz.
+
+\section{Покращення карти глибин}
+
 Карти глибин, отримані алгоритмом дифузії не є такими гладкими,
 як ідеальні карти глибин.
 Для підвищення гладкості карт глибин та позбавлення від артефактів
@@ -214,13 +211,23 @@
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/refinement}
+  \begin{subfigure}[t]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{images/refinement_initial}
+      \caption{Початкова карта глибин}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{images/refinement_result}
+      \caption{Покращена карта глибин}
+  \end{subfigure}
   \caption{Приклад роботи одного з методів покращення карти глибин.
-           Зліва зображена початкова карта глибин,
-           отримана алгоритмом стереобачення, справа~---~покращена карта глибин.
-           Зображення взяті зі статті \ref{fig:refinement}}
+           Зображення взяті зі статті \cite{refinement}}
   \label{fig:refinement}
 \end{figure}
+
+\section{Штрафні функції}
 
 В якості штрафної функції для вершин $f$
 в даній роботі використовувався модуль різниці
@@ -246,6 +253,8 @@ $d, d' \in D$.
 функція залишається субмодулярною,
 що гарантує існування розмітки після розв'язання оптимізаційної задачі
 алгоритмом дифузії.
+
+\section{Додаткові обмеження}
 
 Додатково були введені обмеження на можливі мітки в кожному об'єкті:
 для об'єкта $\left( x, y \right) \in T$ з горизонтальною координатою $x$
@@ -277,18 +286,27 @@ $x - d < 0$ (рис.~\ref{fig:disparity:restriction:vertex}).
 \end{figure}
 
 Також були накладені обмеження на зсуви в сусідніх об'єктах по горизонталі:
-$d' \le d + 1$, де $d \in D$~---~мітка в об'єкті $\left(x, y \right) \in T$,
+$d' \le d + 1$ (рис.~\ref{fig:disparity:restriction:edge}),
+де $d \in D$~---~мітка в об'єкті $\left(x, y \right) \in T$,
 $d'$~---~мітка в об'єкті
 $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$,
 такому що $x' = x + 1$.
 
-% TODO: add image
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/disparity_restriction_edges}
+  \caption{Обмеження на вибір міток в сусідніх об'єктах по горизонталі.
+           $L_j$ та $R_j$~---~рядок під номером $j$
+           лівого та правого зображення відповідно.
+           Чорною стрілкою позначено обраний зсув $d \in D$ для об'єкту
+           $\left(i, j \right)$.
+           Синіми стрілками позначені допустимі зсуви $d'$
+           для об'єкта $\left(i + 1, j \right)$, такі що $d' \le d + 1$,
+           недопустимі зсуви $d' > d + 1$ позначено червоними стрілками}
+  \label{fig:disparity:restriction:edge}
+\end{figure}
 
 % TODO: one image with different cell sizes comparison
-
-Алгоритм був реалізований на мові програмування Rust.
-В ході роботи був використаний комп'ютер з процесором
-Intel(R) Core(TM) i5-7400 і ОЗП DDR4 2133MHz.
 
 \section*{Висновки до розділу 4}
 \addcontentsline{toc}{section}{Висновки до розділу 4}
