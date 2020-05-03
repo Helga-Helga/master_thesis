@@ -12,7 +12,8 @@
 2003~\cite{middlebury:ds:2003}
 та 2006~\cite{middlebury:ds:2006:1}~\cite{middlebury:ds:2006:2} роках.
 На рисунку \ref{fig:stereopair} наведені ліві та праві зображення зі стереопар,
-для яких будувались карти глибин в даному розділі дисертації.
+для яких будувались карти глибин в даному розділі дисертації,
+а також істинні карти глибин.
 
 \begin{figure}[h]
 \centering
@@ -34,23 +35,39 @@
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/cloth_right}
-        \caption{Тканина (Cloth1), $400 \times 355$ пікселів}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pots_right}
-        \caption{Квіткові горщики (Flowerpots), $400 \times 338$ пікселів}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/poster_right}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/cloth_ground_truth}
+        \caption{Тканина (Cloth1), $400 \times 355$ пікселів}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/pots_ground_truth}
+        \caption{Квіткові горщики (Flowerpots), $400 \times 338$ пікселів}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/poster_ground_truth}
         \caption{Плакат (Poster), $400 \times 352$ пікселів}
     \end{subfigure}
     \caption{Зображення стереопар,
              для яких будувались карти глибин в цьому розділі.
-             Перший рядок містить ліві зображення, другий~---~праві}
+             Перший рядок містить ліві зображення, другий~---~праві,
+             третій~---~істинні карти глибин}
     \label{fig:stereopair}
 \end{figure}
 
@@ -58,7 +75,7 @@
 отримані за допомогою алгоритму дифузії,
 де кожній долі графу відповідає один піксель,
 як описано в другому розділі дисертації.
-Для кожного зображення вказано кількість ітерацій, зроблений алгоритмом дифузії,
+Для кожного зображення вказано кількість ітерацій, зроблених алгоритмом дифузії,
 час виконання всіх ітерацій, а також кількість міток $\left| D \right|$ в графі.
 
 \begin{figure}[h]
@@ -88,10 +105,10 @@
 \end{figure}
 
 На рисунку \ref{fig:result:superpixel} зображені карти глибин,
-отримані за допомогою алгоритму дифузії з сегментацією зображення,
+отримані за допомогою алгоритму дифузії з використанням сегментації зображення,
 що описана в попередньому розділі дисертації,
 з розміром комірок $5$ на $5$ пікселів.
-Для кожного зображення вказано кількість ітерацій, зроблений алгоритмом дифузії,
+Для кожного зображення вказано кількість ітерацій, зроблених алгоритмом дифузії,
 час виконання всіх ітерацій, а також кількість міток $\left| D \right|$ в графі.
 Отримані досить гладкі карти глибин,
 однак видніються неточності на краях об'єктів.
@@ -122,15 +139,18 @@
     \label{fig:result:superpixel}
 \end{figure}
 
+Алгоритм був реалізований на мові програмування Rust.
+В ході роботи був використаний комп'ютер з процесором
+Intel(R) Core(TM) i5-7400 і ОЗП DDR4 2133MHz.
+
 Для порівняння на рисунку \ref{fig:result:dynamic}
 наведені карти глибин,
 отримані з тими самими штрафними функціями
 та значеннями параметрів за допомогою динамічного програмування,
 де для кожного рядка зображення карта глибин шукається незалежно.
-Хоча алгоритм і працює дуже швидко,
-на отриманих картах глибин чітко видно горизонтальні лінії,
-які є результатом того, що всі рядки зображення обробляються незалежно.
-Таким чином, не алгоритм не враховує гладкість об'єктів.
+На отриманих картах глибин чітко видно горизонтальні лінії,
+які є результатом того, що всі рядки зображення обробляються незалежно,
+тобто алгоритм не враховує гладкість об'єктів.
 Даний метод описано в першому розділі дисертації.
 
 \begin{figure}[h]
@@ -138,93 +158,112 @@
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/cloth_dynamic_result}
-        \caption{$1.825$ секунди}
-        \label{fig:cloth:result:dynamic}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/pots_dynamic_result}
-        \caption{$0.792$ секунди}
-        \label{fig:flowerpots:result:dynamic}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/poster_dynamic_result}
-        \caption{$0.83$ секунди}
-        \label{fig:poster:result:dynamic}
     \end{subfigure}
     \caption{Карти глибин, отримані за допомогою динамічного програмування}
     \label{fig:result:dynamic}
 \end{figure}
 
-На рисунку \ref{fig:ground:truth}
-наведені істинні синтезовані карти глибин,
-надані разом за набором стереопар.
+\section{Залежність від розміру комірок}
+
+Як показано в попередньому розділі дисертації в формулі
+\eqref{eq:diffusion:superpixel:complexity},
+зі збільшенням розміру комірок, на які розбивається зображення,
+зменшується складність виконання ітерацій алгоритму дифузії.
+На рисунку \ref{fig:superpixel:cloth:cell:size}
+показані карти глибин для однієї і тієї ж стереопари,
+отримані алгоритмом дифузії з використанням суперпікселів,
+але при розділенні зображення на комірки різного розміру.
+З рисунку видно, що при збільшенні розміру комірок зменшується час,
+необхідний на розв'язання задачі оптимізації алгоритмом дифузії,
+однак в той же час побудована карта глибин стає менш гладкою,
+додаються артефакти на краях об'єктів.
+Вони можуть бути незначними для гладких зображень, таких як тканина,
+але для зображень, які містять дрібніші об'єкти,
+погіршення можуть бути суттєвими.
+Прикладом може слугувати рисунок \ref{fig:superpixel:tsukuba:cell:size},
+на якому видно, що камера змінює свою форму,
+а на границях лампи з'являється все більше артефактів при збільшенні розміру комірок.
 
 \begin{figure}[h]
 \centering
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/cloth_ground_truth}
-        \caption{Тканина (Cloth1)}
-        \label{fig:cloth:ground:truth}
+        \includegraphics[width=\textwidth]{images/cloth_superpixel_2}
+        \caption{Розмір комірки $2\times 2$ пікселі,
+                 $400$ ітерацій,
+                 $3$ години $20$ хвилин}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/pots_ground_truth}
-        \caption{Квіткові горщики (Flowerpots)}
-        \label{fig:flowerpots:ground:truth}
+        \includegraphics[width=\textwidth]{images/cloth_superpixel_based_stereo}
+        \caption{Розмір комірки $5 \times 5$ пікселів,
+                 $100$ ітерацій,
+                 $19$ хвилин}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/poster_ground_truth}
-        \caption{Плакат (Poster)}
-        \label{fig:poster:ground:truth}
+        \includegraphics[width=\textwidth]{images/cloth_superpixel_8}
+        \caption{Розмір комірки $8\times 8$ пікселів,
+                 $5$ ітерацій,
+                 $45$ секунд}
     \end{subfigure}
-    \caption{Істинні карти глибин}
-    \label{fig:ground:truth}
+    \caption{Залежність якості карти глибин від розмірів комірок.
+             Для всіх випадків $\left| D \right| = 40$, $\alpha = 1.4$}
+    \label{fig:superpixel:cloth:cell:size}
 \end{figure}
 
-Алгоритм був реалізований на мові програмування Rust.
-В ході роботи був використаний комп'ютер з процесором
-Intel(R) Core(TM) i5-7400 і ОЗП DDR4 2133MHz.
-
-\section{Покращення карти глибин}
-
-Карти глибин, отримані алгоритмом дифузії не є такими гладкими,
-як ідеальні карти глибин.
-Для підвищення гладкості карт глибин та позбавлення від артефактів
-після застосування алгоритмів стереобачення
-часто використовують згладжуючі фільтри та інші методи обробки карти глибин.
-Приклад одного з методів покращення карти глибин \cite{refinement}
-наведений на рисунку \ref{fig:refinement}.
-В даному методі для кожного пікселя розглядається
-віконце певного розміру з центром в цьому пікселі.
-Значення зсуву для даного пікселя перераховується шляхом голосування
-з використанням сусідніх пікселів.
-Далі використовується медіанний фільтр для згладжування зображення.
-Він прибирає імпульсний шум, позбавляючи карту глибин від деяких артефактів.
-
 \begin{figure}[h]
-  \centering
-  \begin{subfigure}[t]{0.45\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{images/refinement_initial}
-      \caption{Початкова карта глибин}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[t]{0.45\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{images/refinement_result}
-      \caption{Покращена карта глибин}
-  \end{subfigure}
-  \caption{Приклад роботи одного з методів покращення карти глибин.
-           Зображення взяті зі статті \cite{refinement}}
-  \label{fig:refinement}
+\centering
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tsukuba_left}
+        \caption{Ліве зображення}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tsukuba_ground_truth}
+        \caption{Істинна карта глибин}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tsukuba_superpixel_5}
+        \caption{Розмір комірки $5\times 5$ пікселів,
+                 $310$ ітерацій,
+                 $8$ хвилин}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tsukuba_superpixel_8}
+        \caption{Розмір комірки $8 \times 8$ пікселів,
+                 $200$ ітерацій,
+                 $4$ хвилини}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/tsukuba_superpixel_12}
+        \caption{Розмір комірки $12\times 12$ пікселів,
+                 $100$ ітерацій,
+                 $2$ хвилини}
+    \end{subfigure}
+    \caption{Залежність якості карти глибин від розмірів комірок.
+             Для всіх випадків $\left| D \right| = 15$, $\alpha = 10$.
+             Розмір зображення $384$ на $288$ пікселів}
+    \label{fig:superpixel:tsukuba:cell:size}
 \end{figure}
 
 \section{Штрафні функції}
@@ -306,9 +345,13 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$,
   \label{fig:disparity:restriction:edge}
 \end{figure}
 
-% TODO: one image with different cell sizes comparison
-
 \section*{Висновки до розділу 4}
 \addcontentsline{toc}{section}{Висновки до розділу 4}
 
-% TODO: add conclusions
+В даному розділі наведено приклади роботу алгоритму
+з використанням запропонованого методу прискорення алгоритмів стереобачення,
+що використовує сегментацію зображення.
+Наведено штрафні функції та інші параметри алгоритму, які буди використані.
+З експериментів видно, що запропонований метод дійсно прискорює роботу алгоритму дифузії,
+зменшуючи необхідну кількість ітерацій та їх складність,
+в той же час знижуючи якість побудованої карти глибин в деяких випадках.

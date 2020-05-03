@@ -16,8 +16,8 @@ $L_y \; : \; \left\{ 1, \dotsc, w \right\} \to C$
 відповідають пікселі рядка $y$
 правого зображення $R_y \; : \; \left\{ 1, \dotsc, w \right\} \to C$,
 де $y = \overline{1, h}$, $h$~---~висота зображення, $w$~---~ширина зображення,
-а $C = \left\{ 0, \dotsc, 255 \right\}$~---~множина,
-що задає інтенсивності пікселів.
+а $C = \left\{ 0, \dotsc, 255 \right\}$~---~множина інтенсивностей пікселів
+(розглядаються півтонові зображення).
 Вважається, що в кожен рядок лівого зображення проектується свій об'єкт,
 тому вектори зсувів для всіх рядків можна знаходити незалежно шляхом
 мінімізації штрафної функції
@@ -228,6 +228,38 @@ $d \left(x, y \right)$.
 шляхом розв'язання двоїстої задачі \cite{overview:savchynskyy:diffusion}.
 Докладніше алгоритм описано в наступному розділі.
 
+\section{Покращення карти глибин}
+
+Для підвищення гладкості карт глибин та позбавлення від артефактів
+після застосування алгоритмів стереобачення
+часто використовують згладжуючі фільтри та інші методи обробки карти глибин.
+Приклад одного з методів покращення карти глибин \cite{refinement}
+наведений на рисунку \ref{fig:refinement}.
+В даному методі для кожного пікселя розглядається
+віконце певного розміру з центром в цьому пікселі.
+Значення зсуву для даного пікселя перераховується шляхом голосування
+з використанням сусідніх пікселів.
+Далі використовується медіанний фільтр для згладжування зображення.
+Він прибирає імпульсний шум, позбавляючи карту глибин від деяких артефактів.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{images/refinement_initial}
+      \caption{Початкова карта глибин}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{images/refinement_result}
+      \caption{Покращена карта глибин}
+  \end{subfigure}
+  \caption{Приклад роботи одного з методів покращення карти глибин.
+           Зображення взяті зі статті \cite{refinement}}
+  \label{fig:refinement}
+\end{figure}
+
 \section{Постановка задачі}
 
 Виходячи з аналізу статей, запишемо постановку задачі,
@@ -357,7 +389,7 @@ $\left(x, z \right)$ в просторі.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.6\textwidth]{images/grid_graph_pixels}
+  \includegraphics[width=0.5\textwidth]{images/grid_graph_pixels}
   \caption{$\left|T \right|$-дольний граф-решітка.
            Об'єкти (долі) позначені квадратами.
            Об'єкти, що поєднані лініями, є сусідніми}
@@ -390,6 +422,17 @@ $\left(x, y \right) \in T$
     \right),
 \end{equation}
 де $f \, : \, T \times D \to \mathbb{R}$.
+Прикладами функції $f$ можуть слугувати модуль
+різниці інтенсивностей відповідних пікселів на двох зображеннях
+\begin{equation*}
+    f_{\left(x, y \right)} \left(d \right) =
+    \left| L \left(x, y \right) - R \left(x - d, y \right) \right|
+\end{equation*}
+або квадрат різниці інтенсивностей відповідних пікселів на двох зображеннях
+\begin{equation*}
+    f_{\left(x, y \right)} \left(d \right) =
+    \left[ L \left(x, y \right) - R \left(x - d, y \right) \right]^2.
+\end{equation*}
 
 Кожен об'єкт графу має не більше чотирьох сусідніх об'єктів: верхній, правий,
 нижній і лівий.
@@ -415,6 +458,11 @@ $\left(x, y \right) \in T$
 накладається штраф за невідповідність обраних зсувів в сусідніх об'єктах
 $g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right)$
 (рис.~\ref{fig:neighbor:edge:weights}).
+Прикладами функції $g$ можуть слугувати модуль різниці сусідніх зсувів
+$g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = \left| d - d' \right|$
+або
+$g_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) =
+    \min \left\{ \beta, \left| d - d' \right| \right\}$.
 Множину всіх пар сусідніх об'єктів позначимо через $\mathcal{N}$.
 Таким чином, $g \, : \, \mathcal{N} \times D^2 \to \mathbb{R}$.
 
