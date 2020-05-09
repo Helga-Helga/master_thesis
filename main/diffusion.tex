@@ -123,10 +123,10 @@ $\hat{A} \cdot \pmb{x} = \pmb{b}$,
         \langle \pmb{c}, \pmb{x} \rangle +
         \langle \pmb{\lambda}, \hat{A} \cdot \pmb{x} - \pmb{b} \rangle = \\
     = \arg\,\min \limits_{\pmb{x} \in conv \left( P \cap \left\{ 0, 1\right\}^n\right)}
-        \langle \pmb{c} + \hat{A}^T \cdot \pmb{\lambda}, \pmb{x} \rangle,
+        \langle \pmb{c} + \hat{A}^T \cdot \pmb{\lambda}, \pmb{x} \rangle
 \end{gathered}
 \end{equation}
-такий що $\hat{A} \cdot \pmb{x}^* = \pmb{0}$.
+такий, що $\hat{A} \cdot \pmb{x}^* = \pmb{0}$.
 Іншими словами, $\pmb{\lambda}^*$~---~це дуальний оптимум для задачі
 \eqref{eq:lagrange:dual:problem} тоді й тільки тоді,
 коли існує такий $\pmb{x}^*$,
@@ -140,8 +140,8 @@ $\hat{A} \cdot \pmb{x} = \pmb{b}$,
 Такий $\pmb{x}^*$ є розв'язком релаксованої прямої задачі.
 
 \textbf{Примітка.}
-Якщо крім виконання умови \eqref{eq:primal:dual:optimality:condition} та
-$\hat{A} \cdot \pmb{x}^* = \pmb{0}$ справедливо,
+Якщо, крім виконання умови \eqref{eq:primal:dual:optimality:condition} та
+$\hat{A} \cdot \pmb{x}^* = \pmb{0}$, справедливо,
 що $\pmb{x}^* \in \left\{ 0, 1 \right\}^n$,
 тоді $\pmb{x}^*$~---~це розв'язок нерелаксованої
 цілочисельної задачі лінійного програмування \eqref{eq:ILP}.
@@ -156,6 +156,8 @@ $\left( \left( x, y, d \right), \left(x', y', d' \right) \right)$,
 $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 в побудованому графі.
 Множину всіх вершин і дужок графу позначимо через $\mathcal{I}$.
+Таким чином, елементи вектора $\pmb{\mu}$
+індексуються елементами множини $\mathcal{I}$.
 
 Елементи даного вектору $\mu_{\left(x, y \right)} \left(d \right)$,
 що відповідають вершинам, мають бути узгодженими з розміткою $\pmb{d}$,
@@ -165,7 +167,7 @@ $d^* \in D$,
 За визначенням, для задання розмітки $\pmb{d} \in D^T$
 необхідно в кожному об'єкті $\left(x, y \right) \in T$
 обрати одну й тільки одну мітку $d \in D$.
-Таким чином, на елементи вектора $\pmb{\mu}$ накладаються
+Отже, на елементи вектора $\pmb{\mu}$ накладаються
 \textit{обмеження однозначності (uniqueness} or
 \textit{simplex constraint) для вершин} в об'єкті
 \begin{equation} \label{eq:vetrex:unambiguity}
@@ -179,8 +181,8 @@ $d^* \in D$,
 
 Якщо в об'єкті $\left(x', y' \right) \in T$ обрана вершина з міткою $d' \in D$,
 то обрані дужки, що поєднують мітки $d'$ і $d$
-та виходять із даного об'єкту до сусідніх об'єктів
-$\left(x, y \right) \in \mathcal{N} \left(x, y \right)$,
+та виходять із даного об'єкта до сусідніх об'єктів
+$\left(x, y \right) \in \mathcal{N} \left(x', y' \right)$,
 мають виходити з цієї ж вершини (рис.~\ref{fig:combining:constraints}).
 Ці обмеження називаються
 \textit{поєднуючими (coupling} or \textit{marginalization constraints)}
@@ -275,7 +277,7 @@ $\left(x, y \right) \in \mathcal{N} \left(x, y \right)$,
 
 Використаємо прийом дуалізації \eqref{eq:dualization}
 поєднуючих обмежень \eqref{eq:combining:constraints}
-в задачі \eqref{eq:ILP:MAP:inference}.
+у задачі \eqref{eq:ILP:MAP:inference}.
 Новий доданок має вигляд
 \begin{equation} \label{eq:dualized:term}
     \sum \limits_{\left(x, y \right) \in T}
@@ -307,7 +309,7 @@ $d \in D$,
 \end{figure}
 
 Запишемо цільову функцію задачі \eqref{eq:ILP:MAP:inference}
-з урахуванням нового доданку \eqref{eq:dualized:term}, в якому розкриємо дужки
+з урахуванням нового доданку \eqref{eq:dualized:term}, у якому розкриємо дужки
 \begin{equation*}
 \begin{gathered}
     \langle \pmb{\theta}^{\varphi}, \pmb{\mu} \rangle =
@@ -387,7 +389,7 @@ $d \in D$ в об'єкті $\left(x, y \right) \in T$
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.7\textwidth]{images/reparametrized_vertex_weight}
-  \caption{Потенціали, які віднімаються від вихідного штрафу в вершині $\left(x, y, d \right)$}
+  \caption{Потенціали, які віднімаються від вихідного штрафу у вершині $\left(x, y, d \right)$}
   \label{fig:reparametrized:vertex:weight}
 \end{figure}
 
@@ -508,7 +510,7 @@ $G^{\varphi} \left(\pmb{d} \right)
 для всіх розміток $\pmb{d} \in D^T$.
 Отже, репараметризовані ваги введено правильно.
 
-Перепишемо локальний політоп в термінах симплексів \eqref{eq:simplex}
+Перепишемо локальний політоп у термінах симплексів \eqref{eq:simplex}
 \begin{equation*}
 \begin{gathered}
     \mathcal{L} =
@@ -603,7 +605,7 @@ $\Phi = \left\{
 \cite{overview:savchynskyy:diffusion},
 тобто на кожній ітерації відбувається максимізація цільової функції
 \eqref{eq:lagrange:dual:MAP} за блоком змінних.
-При цьому змінні, що не входять в даних блок,
+При цьому змінні, що не входять у даних блок,
 залишаються фіксованими з попередньої ітерації.
 
 Виведемо алгоритм дифузії, ітерація якого буде складатися з двох кроків.
@@ -614,14 +616,14 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i} \left( d \right)$
 на кроці $i$.
 Зауважимо, що всі інші дуальні змінні не впливають на оптимізацію,
 бо не залежать від даної вершини, тому вважаємо, що вони дорівнюють нулю.
-Хочемо, щоб після перетворення мінімальні штрафи за вибір дужок,
-які йдуть від вершини $\left(x, y, d \right)$ до сусідніх об'єктів
+Хочемо, щоби після перетворення мінімальні штрафи за вибір дужок,
+між вершиною $\left(x, y, d \right)$ та вершинами в сусідніх об'єктах
 $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$, стали рівними нулю
 \begin{equation} \label{eq:requirement:1}
     \min \limits_{d' \in D} g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 1}}
     \left(
         d, d' \right
-    ) = 0, \, \forall t' \in \mathcal{N} \left(t \right), \, d \in D.
+    ) = 0, \, \forall \left(x', y' \right) \in \mathcal{N} \left(x, y \right), \, d \in D.
 \end{equation}
 Підставимо репараметризований штраф \eqref{eq:reparametrized:edge}
 \begin{equation*}
@@ -672,9 +674,9 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 2} \left( d \right)$
 на кроці $i + 2$ через дуальну змінну
 $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
 на кроці $i + 1$.
-Хочемо, щоб після перетворення штраф за вибір вершини $\left(x, y, d \right)$
+Хочемо, щоби після перетворення штраф за вибір вершини $\left(x, y, d \right)$
 розподілився рівномірно між дужками,
-що йдуть від цієї вершини до сусідніх об'єктів, тобто щоб виконувалась рівність
+що йдуть від цієї вершини до сусідніх об'єктів, тобто щоб виконувалася рівність
 \begin{equation*}
     \min \limits_{d' \in D} g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^{i + 2}}
     \left(
@@ -720,9 +722,9 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
     \frac{f_{\left(x, y \right)}^{i + 1} \left(d \right)}{\left| \mathcal{N} \left( x, y \right) \right|}.
 \end{equation*}
 
-Таким чином, \textit{елементарний крок алгоритму дифузії}
+Отже, \textit{елементарний крок алгоритму дифузії}
 (рис.~\ref{fig:diffusion:step})
-складається з двох операцій для кожного об'єкту $\left(y, x \right)$:
+складається з двох операцій для кожного об'єкта $\left(x, y \right)$:
 \begin{equation}\label{eq:diffusion:first}
 \begin{gathered}
     \forall \left( x', y' \right) \in \mathcal{N} \left(x, y\right) \; \;
@@ -764,7 +766,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
            а значення дуальних змінних $\varphi$~---~меншими.
            Для верхньої вершини суцільні лінії позначають мінімальні штрафи
            за вибір дужки від цієї вершини до кожного сусіднього об'єкта,
-           пунктирні лінії позначають всі інші дужки.
+           пунктирні лінії позначають усі інші дужки.
            Зліва зображені початкові штрафи,
            посередині~---~штрафи та значення
            двоїстих змінних після виконання кроку \eqref{eq:diffusion:first},
@@ -885,7 +887,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
         \right] \ge
 \end{gathered}
 \end{equation*}
-В першому доданку
+У першому доданку
 застосуємо формулу для репараметризованого штрафу за вибір вершини з міткою $d$
 в об'єкті $\left(x, y \right)$ на кроці $i$ \eqref{eq:reparametrized:vertex},
 а в другому доданку скористаємось тим фактом,
@@ -916,7 +918,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 \end{equation*}
 Тепер у першому доданку скористаємось тим фактом,
 що сума мінімумів функцій не перевищує мінімуму суми функцій.
-Також зазначимо, що через те, що дуги в графі не направлені,
+Також зазначимо, що через те, що дуги в графі не напрямлені,
 має місце рівність
 \begin{equation*}
     g_{\left(x, y \right), \left(x', y' \right)}^{\varphi^i}
@@ -942,9 +944,9 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
                 \left(d, d' \right) \ge
 \end{gathered}
 \end{equation*}
-В першому доданку поміняємо місцями знак суми по всім сусіднім об'єктам
+У першому доданку поміняємо місцями знак суми по всім сусіднім об'єктам
 $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
-та знак мінімума по міткам $d \in D$ та розкриємо дужки
+та знак мінімума по мітках $d \in D$ та розкриємо дужки
 \begin{equation*}
 \begin{gathered}
     \ge \sum \limits_{\left(x, y \right) \in T}
@@ -963,7 +965,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 Другий доданок містить кожну дужку
 $\left( \left(x, y \right), \left(x', y' \right) \right)$ два рази,
 бо об'єкт $\left(x', y' \right)$ є сусіднім для об'єкта $\left(x, y \right)$,
-а об'єкт $\left(x, y \right)$ в свою чергу є сусіднім для об'єкта
+а об'єкт $\left(x, y \right)$ зі свого боку є сусіднім для об'єкта
 $\left(x', y' \right)$, тому він дорівнює останньому доданку, помноженому на два
 \begin{equation*}
 \begin{gathered}
@@ -1066,7 +1068,7 @@ $\left(x', y' \right)$, тому він дорівнює останньому д
         \right] =
 \end{gathered}
 \end{equation*}
-В першому доданку розкриємо дужки,
+У першому доданку розкриємо дужки,
 а в другому застосуємо формулу для репараметризованого штрафу за вибір пари
 міток на кроці $i + 1$
 \eqref{eq:reparametrized:edge}
@@ -1090,7 +1092,7 @@ $\left(x', y' \right)$, тому він дорівнює останньому д
         \right] \ge
 \end{gathered}
 \end{equation*}
-В першому доданку використаємо формулу для репараметризованого штрафу за вибір
+У першому доданку використаємо формулу для репараметризованого штрафу за вибір
 мітки на кроці $i + 1$ \eqref{eq:reparametrized:edge},
 а в другому доданку внесемо знак мінімума в дужки
 \begin{equation*}
@@ -1158,10 +1160,10 @@ $\left(x', y' \right)$, тому він дорівнює останньому д
 алгоритму дифузії не зменшує дуальную функцію Лагранжа
 \eqref{eq:lagrange:dual:MAP}.
 
-Таким чином,
-операції \eqref{eq:diffusion:first} і
+Отже,
+операції \eqref{eq:diffusion:first} й
 \eqref{eq:diffusion:second} максимізують дуальну функцію Лагранжа
-\eqref{eq:lagrange:dual:MAP} по потенціалам
+\eqref{eq:lagrange:dual:MAP} по потенціалах
 $\Phi$, а тому мінімізують штрафну функцію \eqref{eq:overview:penalty}
 \cite{overview:savchynskyy:diffusion},
 що випливає з прямо-двоїстих умов оптимальності.
@@ -1198,13 +1200,13 @@ $\left(x, y \right) \in T$ до виконання критерію зупинк
 \cite{overview:savchynskyy:diffusion}.
 
 Розглядається той самий $\left| T \right|$-дольний граф,
-в кожній долі (об'єкті) якого міститься $\left| D \right|$ вершин.
+у кожній долі (об'єкті) якого міститься $\left| D \right|$ вершин.
 Вага вершини з міткою $d \in D$ в об'єкті $\left(x, y \right) \in T$
 тепер дорівнює
 $\mu_{\left(x, y \right)} \left( d \right) \in \left\{ 0, 1 \right\}$,
-а вага дужки між парою міток $d \in D$ в об'єкті $\left( x, y \right) \in T$
-та $d' \in D$ в об'єкті
-$\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$ дорівнює
+а вага дужки між парою міток $d, d' \in D$ в сусідніх об'єктах
+$\left( \left( x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
+дорівнює
 $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) \in
     \left\{ 0, 1 \right\}$.
 
@@ -1217,12 +1219,12 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 1$.
 
 На побудованому графі розв'язується
 $\left( \bigvee, \bigwith \right)$-задача, що полягає у відповіді на питання
-<<Чи існує така розмітка, при якій всі мітки та пари міток є допустимими?>>.
+<<Чи існує така розмітка, за якої усі мітки та пари міток є допустимими?>>.
 
 На початку всі вершини вважаються допустимими, тобто
 $\mu_{\left(x, y \right)} \left(d \right) = 1$ для всіх
-міток $d \in D$ в кожному об'єкті $\left(y,x \right) \in T$.
-В кожній парі сусідніх об'єктів
+міток $d \in D$ в кожному об'єкті $\left(x, y \right) \in T$.
+У кожній парі сусідніх об'єктів
 $\left( \left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 знаходиться дужка з мінімальною вагою
 \begin{equation*}
@@ -1260,24 +1262,24 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
     \begin{subfigure}[t]{0.475\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/epsilon_edges_05}
-        \caption{Допустимі дужки при $\varepsilon = 0.5$}
+        \caption{Допустимі дужки за $\varepsilon = 0.5$}
         \label{fig:epsilon:edges:0.5}
     \end{subfigure}
     \vskip\baselineskip
     \begin{subfigure}[t]{0.475\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/epsilon_edges_1}
-        \caption{Допустимі дужки при $\varepsilon = 1$}
+        \caption{Допустимі дужки за $\varepsilon = 1$}
         \label{fig:epsilon:edges:1}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.475\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/epsilon_edges_4}
-        \caption{Допустимі дужки при $\varepsilon = 4$}
+        \caption{Допустимі дужки за $\varepsilon = 4$}
         \label{fig:epsilon:edges:4}
     \end{subfigure}
-    \caption{Допустимі дужки при різних значеннях $\varepsilon$}
+    \caption{Допустимі дужки за різних значень величини $\varepsilon$}
     \label{fig:epsilon:edges}
 \end{figure}
 
@@ -1341,15 +1343,15 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
 
 Алгоритм завершує роботу зі скінченну кількість ітерацій,
 адже ніяка викреслена вершина або дужка не може знов стати допустимою.
-Якщо після завершення роботи алгоритму деякі вершини залишились допустимими,
-то було зроблено досить ітерацій дифузії,
+Якщо після завершення роботи алгоритму деякі вершини залишилися допустимими,
+то було зроблено досить ітерацій алгоритму дифузії,
 і з множини допустимих вершин можна побудувати розмітку.
 
-Таким чином, для знаходження найкращої розмітки, необхідно
+Отже, для знаходження найкращої розмітки, необхідно
 \begin{enumerate}
     \item виконати $N$ ітерацій алгоритму дифузії, де $N$~---~фіксоване число;
     \item запустити алгоритм викреслювання другого порядку;
-    \item якщо після зупинки алгоритму викреслювання залишились
+    \item якщо після зупинки алгоритму викреслювання залишилися
           допустимі вершини, вибрати найкращу розмітку,
           інакше~---~перейти до першого кроку.
 \end{enumerate}
@@ -1362,8 +1364,8 @@ $\mu_{\left(x, y \right), \left(x', y' \right)} \left(d, d' \right) = 0$.
 \cite{diffusion:shlezinger:supermodularity}.
 
 Для введення субмодулярності необхідно задати порядок на множині міток $D$.
-В задачі стереобачення, яка розглядається, мітки задаються цілими числами,
-які можна впорядкувати по зростанню або спаданню.
+У задачі стереобачення, яка розглядається, мітки задаються цілими числами,
+які можна впорядкувати за зростанням або спаданням.
 Будемо вважати, що серед двох міток $d, d' \in D$ \textit{вищою} є та мітка,
 значення якої менше, як зображено на рисунку \ref{fig:phi:block}.
 Тобто якщо $d < d'$, то $d$ є \textit{вищою} за $d'$.
@@ -1390,7 +1392,7 @@ $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
   \label{fig:submodular:function}
 \end{figure}
 
-Прикладом штрафної функції для дужок з властивістю субмодулярності
+Прикладом штрафної функції для дужок із властивістю субмодулярності
 є модуль різниці між значеннями міток
 \begin{equation} \label{eq:edge:abs}
     g_{\left(x, y \right), \left(x', y' \right)} \left( d, d' \right)
@@ -1403,7 +1405,7 @@ $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 (рис. \ref{fig:submodularity:abs:proof}).
 Для всіх можливих випадків, що зображені на рисунку,
 необхідно розкрити модулі в нерівності \eqref{eq:submodular:function}
-та переконатися, що вони виконуються.
+та переконатися, що нерівність виконується.
 
 \begin{figure}[h]
   \centering
@@ -1414,8 +1416,8 @@ $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 \end{figure}
 
 Якщо після того, як алгоритм викреслювання зупинився,
-в кожному об'єкті $\left(x, y \right) \in T$
-залишилась хоча б одна допустима вершина,
+у кожному об'єкті $\left(x, y \right) \in T$
+залишилася хоча б одна допустима вершина,
 то в кожному об'єкті обирається та мітка, яка є найвищою.
 Сукупність таких міток і буде утворювати оптимальну розмітку.
 
@@ -1424,7 +1426,7 @@ $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 
 Пред'явлено розв'язок задачі стереобачення за допомогою алгоритму дифузії.
 Доведено, що кожний крок алгоритму дифузії не зменшує дуальну функцію Лагранжа
-для енергії задачі, а також наведено інші важливі властивості.
+для штрафної функції задачі, а також наведено інші важливі властивості.
 Описано, як знайти оптимальну розмітку після розв'язання задачі оптимізації,
 використовуючи алгоритм викреслювання другого порядку.
 Для існування оптимальної розмітки, штрафна функція, що накладається на дужки,
