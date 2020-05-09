@@ -241,7 +241,7 @@ $\left(x, y \right) \in \mathcal{N} \left(x, y \right)$,
 
 Маємо задачу цілочисельного лінійного програмування
 \begin{equation*}
-    \min \limits_{\pmb{d} \in D^T} E \left( \pmb{d} \right) =
+    \min \limits_{\pmb{d} \in D^T} G \left( \pmb{d} \right) =
     \min \limits_{\pmb{\mu} \in \mathcal{L} \cap \left\{ 0, 1 \right\}^{\mathcal{I}}}
         \langle \pmb{\theta}, \pmb{\mu} \rangle,
 \end{equation*}
@@ -442,7 +442,7 @@ $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
 \eqref{eq:reparametrized:vertex} та \eqref{eq:reparametrized:vertex}
 \begin{equation*}
 \begin{gathered}
-    E^{\varphi} \left( \pmb{d} \right)
+    G^{\varphi} \left( \pmb{d} \right)
     = \sum \limits_{\left(x, y \right) \in T}
         f_{\left(x, y \right)}^{\varphi} \left(
             d \left(x, y \right)
@@ -476,7 +476,7 @@ $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
 Розкриємо дужки в останньому виразі
 \begin{equation*}
 \begin{gathered}
-    E^{\varphi} \left( \pmb{d} \right)
+    G^{\varphi} \left( \pmb{d} \right)
     = \sum \limits_{\left(x, y \right) \in T}
         f_{\left(x, y \right)} \left(d \left(x, y \right) \right)
     - \sum \limits_{\left(x, y \right) \in T}
@@ -496,14 +496,15 @@ $\left( \left(x, y \right), \left(x', y'\right) \right) \in \mathcal{N}$
             + \varphi_{\left(x', y' \right), \left(x, y \right)} \left(
                 d \left(x', y' \right)
             \right)
-        \right] = E \left(\pmb{d} \right),
+        \right] = G \left(\pmb{d} \right),
 \end{gathered}
 \end{equation*}
-адже перший та третій доданки в сумі дорівнюють $E \left( \pmb{d} \right)$,
+адже перший та третій доданки в сумі дорівнюють
+$G \left( \pmb{d} \right)$,
 а інші доданки разом дорівнюють нулю.
 Отримали, що
-$E^{\varphi} \left(\pmb{d} \right)
-    = E \left(\pmb{d} \right)$
+$G^{\varphi} \left(\pmb{d} \right)
+    = G \left(\pmb{d} \right)$
 для всіх розміток $\pmb{d} \in D^T$.
 Отже, репараметризовані ваги введено правильно.
 
