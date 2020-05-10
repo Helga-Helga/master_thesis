@@ -35,8 +35,8 @@ $\pmb{b} \in \mathbb{R}^n$.
     conv \left(X \right) = \left\{
         \pmb{s} \in \mathbb{R}^n \; \middle| \;
         \exists N \in \mathbb{N}_+ \; : \;
-        s = \sum \limits_{i = 1}^N p_i \cdot x^i, \,
-        x_i \in X, \,
+        \pmb{s} = \sum \limits_{i = 1}^N p_i \cdot \pmb{x}^i, \;
+        \pmb{x}^i \in X, \;
         \pmb{p} \in \Delta^N
     \right\}
 \end{equation*}
@@ -747,16 +747,6 @@ $\varphi_{\left(x, y \right), \left(x', y' \right)}^{i + 1} \left( d \right)$
 \end{equation}
 де через $i$ позначено номер кроку.
 
-\textit{Ітерація алгоритму дифузії}
-полягає у виконанні кроків \eqref{eq:diffusion:first}
-та \eqref{eq:diffusion:second} для всіх об'єктів $\left( x, y \right) \in T$.
-На першій ітерації вважається, що всі дуальні змінні дорівнюють нулю,
-$\varphi_{\left(x, y \right), \left(x', y' \right)} \left( d \right) = 0$
-для всіх об'єктів $\left(x, y \right) \in T$,
-для всіх сусідніх об'єктів
-$\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
-та для всіх міток $d \in D$.
-
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{images/diffusion_step}
@@ -775,6 +765,16 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
   \label{fig:diffusion:step}
 \end{figure}
 
+\textit{Ітерація алгоритму дифузії}
+полягає у виконанні кроків \eqref{eq:diffusion:first}
+та \eqref{eq:diffusion:second} для всіх об'єктів $\left( x, y \right) \in T$.
+На першій ітерації вважається, що всі дуальні змінні дорівнюють нулю,
+$\varphi_{\left(x, y \right), \left(x', y' \right)} \left( d \right) = 0$
+для всіх об'єктів $\left(x, y \right) \in T$,
+для всіх сусідніх об'єктів
+$\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
+та для всіх міток $d \in D$.
+
 \subsection{Властивості алгоритму дифузії}
 
 Покажемо, що після виконання кожного з перетворень \eqref{eq:diffusion:first}
@@ -788,6 +788,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 
 Для доведення цього твердження розпишемо цільову функцію задачі
 \eqref{eq:lagrange:dual:MAP} після виконання кроку $i + 1$
+
 \begin{equation*}
 \begin{gathered}
     \min \limits_{\substack{\pmb{\mu} \in \left\{ 0, 1 \right\}^{\mathcal{I}} \\
@@ -807,6 +808,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 Підставимо вирази для репараметризованих штрафів
 \eqref{eq:reparametrized:vertex}
 та \eqref{eq:reparametrized:edge}
+
 \begin{equation*}
 \begin{gathered}
     = \sum \limits_{\left(x, y \right) \in T}
@@ -828,6 +830,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 \end{equation*}
 Підставимо вирази для оновлення дуальних змінних на кроці $i + 1$
 через дуальні змінні на кроці $i$ \eqref{eq:diffusion:first}
+
 \begin{equation*}
 \begin{gathered}
     = \sum \limits_{\left(x, y \right) \in T}
@@ -892,6 +895,7 @@ $\left(x', y' \right) \in \mathcal{N} \left(x, y \right)$
 в об'єкті $\left(x, y \right)$ на кроці $i$ \eqref{eq:reparametrized:vertex},
 а в другому доданку скористаємось тим фактом,
 що сума мінімумів функцій не перевищує мінімуму суми функцій
+
 \begin{equation*}
 \begin{gathered}
     \ge \sum \limits_{\left(x, y \right) \in T}
@@ -1095,13 +1099,14 @@ $\left(x', y' \right)$, тому він дорівнює останньому д
 У першому доданку використаємо формулу для репараметризованого штрафу за вибір
 мітки на кроці $i + 1$ \eqref{eq:reparametrized:edge},
 а в другому доданку внесемо знак мінімума в дужки
+
 \begin{equation*}
 \begin{gathered}
     \ge \sum \limits_{\left(x, y \right) \in T}
         \min \limits_{d \in D} \left[
             f_{\left(x, y \right)}^{\varphi^{i + 1}} \left( d \right) -
             \sum \limits_{\left(x', y' \right) \in \mathcal{N}\left(x, y \right)}
-                \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}}}{\left| \mathcal{N}\left(x. y \right) \right|}
+                \frac{f_{\left(x, y \right)}^{\varphi^{i + 1}}}{\left| \mathcal{N}\left(x, y \right) \right|}
         \right] + \\
     + \sum \limits_{\left(\left(x, y \right), \left(x', y' \right)\right)\in \mathcal{N}}
     \left[
@@ -1138,7 +1143,7 @@ $\left(x', y' \right)$, тому він дорівнює останньому д
 \end{gathered}
 \end{equation*}
 Два останні доданки рівні між собою,
-а в сумі вони дорівнюють другому доданку за знаком <<мінус>>, отже,
+а в сумі вони дорівнюють другому доданку зі знаком <<мінус>>, отже,
 вони знищуються.
 Те, що залишилося,
 дорівнює дуальній функції Лагранжа \eqref{eq:lagrange:dual:MAP}
@@ -1418,7 +1423,7 @@ $\left(\left(x, y \right), \left(x', y' \right) \right) \in \mathcal{N}$
 Якщо після того, як алгоритм викреслювання зупинився,
 у кожному об'єкті $\left(x, y \right) \in T$
 залишилася хоча б одна допустима вершина,
-то в кожному об'єкті обирається та мітка, яка є найвищою.
+то в кожному об'єкті серед допустимих міток обирається та мітка, яка є найвищою.
 Сукупність таких міток і буде утворювати оптимальну розмітку.
 
 \section*{Висновки до розділу 2}

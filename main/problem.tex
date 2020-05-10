@@ -52,8 +52,9 @@ $f_{\left( x, y \right)} \left( d \right) = f \left(
 де кожен піксель $x$ рядка $y$ є об'єктом,
 а вершини в об'єктах відповідають можливим зсувам $d \left(x \right)$.
 Назвемо їх \textit{мітками}.
-Сусідніми вважаються лише ті об'єкти, які відповідають сусіднім пікселям
-(у кожного пікселя є лівий і правий сусідні пікселі).
+Сусідніми вважаються лише ті об'єкти, які відповідають сусіднім пікселям:
+у кожного пікселя є лівий і правий сусідні пікселі,
+за винятком двох крайніх пікселів рядка, які мають по одному сусідньому пікселю.
 Штраф за вибір мітки в об'єкті $x$, що відповідає зсуву $d \left(x \right)$,
 задається значенням функції $f_{\left( x, y \right)} \left( d \right)$,
 а штраф за вибір пари міток $d \left(x \right)$ та $d \left(x + 1 \right)$
@@ -86,17 +87,17 @@ $g \left( d \left(x \right), d \left( x + 1 \right) \right)$.
 
 \begin{figure}[h]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.4\textwidth}
       \includegraphics[width=\textwidth]{images/overview_cox_dynamic_left}
       \caption{Ліве зображення стереопари}
   \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \qquad
+  \begin{subfigure}[b]{0.4\textwidth}
       \includegraphics[width=\textwidth]{images/overview_cox_dynamic_right}
       \caption{Праве зображення стереопари}
   \end{subfigure}
   \vskip\baselineskip
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.4\textwidth}
       \includegraphics[width=\textwidth]{images/overview_cox_dynamic_result}
       \caption{Карта глибин}
   \end{subfigure}
@@ -176,7 +177,7 @@ $g \left( d \left(x \right), d \left( x + 1 \right) \right)$.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/maxflow_graph}
+  \includegraphics[width=0.75\textwidth]{images/maxflow_graph}
   \caption{Граф, на якому розв'язується задача пошуку мінімального розрізу
            або максимального потоку.
            Сірими квадратами позначені основні вершини,
